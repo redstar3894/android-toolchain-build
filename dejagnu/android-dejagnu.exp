@@ -1,0 +1,11 @@
+switch -glob $target_triplet {
+   "i?86-*-linux*" {
+       set target_list "unix"
+   }
+   "x86_64-*-linux*" {
+       set target_list "unix"
+   }
+   "arm-*-eabi" {
+       set target_list android-adb
+   }
+}

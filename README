@@ -1,0 +1,197 @@
+This is the top-level of the new Android GNU toolchain.  It is designed so
+that tools in the GNU toolchain and their different versions can be
+dropped into the Androind toolchain easily.
+
+1. Supported platforms.
+
+The Android tool-chain supports the following hosts:
+
+   a. i686-linux-gnu		(32-bit x86 Linux)
+   b. x86_64-linux-gnu		(64-bit x86 Linux)
+   c. i686-apple-darwin*	(OS X 10.4 and 10.5)
+
+The Android toolchain supports the following targets:
+
+   a. arm-eabi
+   b. arm-newlib-eabi	(for runnng gcc regression tests)
+   c. i[3456]86-*-linux-gnu, x86_64-*-linux-gnu	(for x86 targets)
+
+Currently we are using a modified arm-eabi target for Android.  To facilitate
+integrating our changes back to the FSF code bases for different tools, we
+may adopt an Android specific target arm-android-eabi some time in the future.
+The arm-newlib-eabi target is mainly used to run the gcc test suite with the
+gnu ARM emulator.
+
+2. Configuring the toolchain
+
+2.1 Pre-requesites
+
+You need to have version 4.4 or higher of the 'makeinfo' program that comes
+from the 'texinfo' package installed on your machine, even if you use
+--disable-docs.
+
+Otherwise the build will later fail with a 'makeinfo is missing...' style
+message.
+
+You can get it by simply installing the 'texinfo' package with your favorite
+package manager, or from its sources.
+
+2.2 General Information
+
+The top-level configure file accepts the usual configure options supported
+by GNU autoconf generated configure file. In addition it supports the
+following options:
+
+  --with-gcc-version=<gcc version>
+  --with-binutils-version=<binutul version>
+  --with-newlib-version=<newlib version>
+  --with-gmp-version=<gmp version>
+  --with-mpfr-version=<mpfr version>
+  --with-gdb-version=<gdb version>
+
+These are used to select the desired version of a particular GNU tool
+package.  If these options are not used during top-level configuring,
+approriate default values will be used.
+
+For any --with-XXX-version=YYY, a sub-directory called XXX-YYY must be
+present in the source level directory.  For example,
+
+	--with-gcc-version=4.3.1
+
+requires that gcc-4.3.1-android to be present and contain the source code
+of a buildable gcc version.
+
+To build the default arm-eabi toolchain, use the following configure options:
+
+mkdir <toolchain object directory>
+cd <toolchain object directory>
+<source directory>/configure --target=arm-eabi \
+	--prefix=<toolchain install directory> \
+
+2.3 Building a standalone toolchain.
+
+The default is building a barebone toolchain for the Android device tree. 
+the barebone toolchain just have binutils, gcc, and gdb.  There are not
+target C library.  This is not convenient to use for application development.
+It is possible to build a standalone toolchain with pre-built libraries and
+headers.
+
+To build a standalone toolchain, we need a set of pre-compile libraries and
+associated headers.  There are two ways to do that.  One way is to assemble a
+sysroot with both the library and headers.  Then when configuring the
+toolchain add --with-sysroot=<path to sysroot>.  The toolchain expects all
+headers and libraries to be in <sysroot>/usr/include and <sysroot>/usr/lib
+respectively.  When using a sysroot, the toolchain remembers where to find the
+target headers and libraries.  Note that make install will not copy the
+headers and libraries from sysroot.
+
+The script build-sysroot.sh can be used to assemble a simple sysroot from
+an Android device tree.
+
+The other way is to specify the headers and libraries with --with-headers and
+--with-libs sperately.  If you configure your tree with a prefix.  The headers
+and libraries will be copied to the install directory specified by the prefix.
+
+After installation, we need to remove those installed headers in
+<prefix dir>/lib/gcc/arm-eabi/*/include-fixed/, if the headers already exist
+in the android tree. The script clear-header.sh can be used to identify and
+remove these installed headers.
+
+2.4 Enabling libstdc++-v3
+
+For space saving, we do not provide libstdc++-v3 in the toolchain by default.
+It is possible too build libstdc++-v3.  The enable it, add
+
+	--enable-libstdc__-v3
+
+when configuring the toolchain.  The C++ library requires a working C library,
+so you must provide a pre-compiled copy of Bionic with either --with-sysroot
+or --with-headers and --with-libs.
+
+2.5 Enabling shared run-time libraries.
+
+By default, we disable shared run-time libraries.  We can also build shared
+version of libgcc and libstdc++ by adding
+
+	--enable-shared
+
+when configuring the toolchain.  Currently the shared libraries are not
+used in Android and we do not provide them in the system image.  If you build
+a toolchain with shared libraries and compile applications using them, you
+must provide these libraries in some place where the Android dynamic linker
+can find it.
+
+2.6 OSX 10.5 caveats
+
+If you build the toolchain on a system running OS X 10.5 with Xcode 3.0, the
+resultant binaries will not be runnable on Macs running older OS X.  To enforce
+compatibility with 10.4, defile the environment variables CC and LDFLAGS
+as follows:
+
+CC="gcc -isystem /Developer/SDKs/MacOSX10.4u.sdk -mmacosx-version-min=10.4"
+LDFLAGS="-Wl,-syslibroot,/Developer/SDKs/MacOSX10.4u.sdk"
+export CC LDFLAGS
+<run configure>
+
+If your 10.4 SDK is not installed at /Developer/SDKs/MacOSX10.4u.sdk, please
+adjust the values of CC and LDFLAGS appropriately.  The top-level configure
+script currently does not support passing CC and LDFLAGS as configure options
+yet so they need to be passed as exported shell variables.
+
+3. Building and Installing the toolchain
+
+After configuring the toolchain, simply use "make".  The top-level Makefile
+in an object directory supports these targets:
+
+	make build (default)
+	make install
+	make clean
+
+"make install" installs the toolchain in the location specified by
+--prefix configure option.  The installation location can also be overridden
+by "make prefix=<install location> install".
+
+4 Running the compiler testsuite
+
+It is possible to run the dejagnu compiler testsuite.  To do that, you need
+a working C library.  This can be done easily by preparing a sysroot and
+configuring the toolchain like:
+
+configure --with-sysroot=<your sysroot> .. <other config options>
+
+After configuring the toolchain, build it as normal.  
+
+Before running the test, you need to have an adb connected device available.
+This can be either an emulator or an actual device.  Make sure that adb
+is in the path of the shell running testsuite and there is a device.  You can
+check all connected devices using "adb devices".   
+
+Then go to the gcc object directory and run the tests:
+
+cd gcc-<version>/gcc
+EXPORT DEJAGNU=<toolchain source>/build/dejagnu/android-dejagnu.exp
+make check
+
+You may want to run a small subset of the testsuite first to verify your
+set-up.  For example, you can just run the IEEE tests in the gcc testsuite by:
+
+make check-gcc RUNTESTFLAGS="ieee.exp"
+
+If you have more than one device connected to adb, you can use the environment
+variable ADB_SERIAL to specify a device.  For example:
+
+make check ADB_SERIAL=HT832GZ12345  # a real phone
+make check ADB_SERIAL=emulator-5554 # an emulator
+
+If ADB_SERIAL is not empty, all adb commands use -s <serial> to select
+the appropriate device.
+
+Sometimes, you may run into a problem with a read-only file system.  When that
+happens, try "adb remount".  If that fails also, try "adb root" first and
+then "adb remount".
+
+Currently, the C++ testsuite is not fully supported.  Android by default
+does not support exceptions and RTTI and has a very limited C++ run-time
+library.  So we do not expect passing even a significant portion of C++
+testsuite.  The C testsuite should work fine with Bionic.
+

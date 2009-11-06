@@ -1,0 +1,317 @@
+# -------------------------------
+# Standard Autoconf-set variables
+# -------------------------------
+VPATH=@srcdir@
+
+build_alias=@build_alias@
+build_vendor=@build_vendor@
+build_os=@build_os@
+build=@build@
+host_alias=@host_alias@
+host_vendor=@host_vendor@
+host_os=@host_os@
+host=@host@
+target_alias=@target_alias@
+target_vendor=@target_vendor@
+target_os=@target_os@
+target_cpu=@target_cpu@
+target=@target@
+
+program_transform_name = @program_transform_name@
+
+prefix = @prefix@
+exec_prefix = @exec_prefix@
+
+srcdir = @srcdir@
+
+bindir = @bindir@
+sbindir = @sbindir@
+libexecdir = @libexecdir@
+datadir = @datadir@
+sysconfdir = @sysconfdir@
+sharedstatedir = @sharedstatedir@
+localstatedir = @localstatedir@
+libdir = @libdir@
+includedir = @includedir@
+oldincludedir = @oldincludedir@
+infodir = @infodir@
+datarootdir = @datarootdir@
+docdir = @docdir@
+pdfdir = @pdfdir@
+htmldir = @htmldir@
+mandir = @mandir@
+
+builddir = @builddir@
+abs_builddir = @abs_builddir@
+#
+# miscellaneous variables
+#
+TOPLEVEL_CONFIGURE_ARGUMENTS:=@TOPLEVEL_CONFIGURE_ARGUMENTS@
+baseargs = @baseargs@
+GCC_MIN_VERSION_4_3_0:=@GCC_MIN_VERSION_4_3_0@
+PACKAGE_TO_SRCDIR:=@package_to_srcdir@
+BUILD_ANDROID_GCC:=@BUILD_ANDROID_GCC@
+GDB_TARGET:=@GDB_TARGET@
+
+# We need to figure out how to get to top level source directory from
+# a package build directory. 
+# For host modules, accept cache file option, or specification as blank.
+
+
+BINUTILS_VERSION=binutils-@BINUTILS_VERSION@
+GCC_VERSION=gcc-@GCC_VERSION@
+NEWLIB_VERSION=newlib-@NEWLIB_VERSION@
+GMP_VERSION=gmp-@GMP_VERSION@
+MPFR_VERSION=mpfr-@MPFR_VERSION@
+GDB_VERSION=gdb-@GDB_VERSION@
+STAMP=touch
+
+TARGET_BINUTILS_BUILDDIR=$(abs_builddir)/$(BINUTILS_VERSION)
+TARGET_GCC_BUILDDIR=$(abs_builddir)/$(GCC_VERSION)
+TEMP_INSTALLDIR=$(abs_builddir)/temp-install
+
+# We export these insteading when configuring target gcc and newlib
+TARGET_BINUTILS_EXPORTS= \
+export	AS_FOR_TARGET=$(TARGET_BINUTILS_BUILDDIR)/gas/as-new \
+	LD_FOR_TARGET=$(TARGET_BINUTILS_BUILDDIR)/ld/ld-new \
+	AR_FOR_TARGET=$(TARGET_BINUTILS_BUILDDIR)/binutils/ar \
+	NM_FOR_TARGET=$(TARGET_BINUTILS_BUILDDIR)/binutils/nm-new \
+	STRIP_FOR_TARGET=$(TARGET_BINUTILS_BUILDDIR)/binutils/strip-new \
+	RANLIB_FOR_TARGET=$(TARGET_BINUTILS_BUILDDIR)/binutils/ranlib
+
+TARGET_MINIMAL_GCC_EXPORTS= \
+export	CC_FOR_TARGET="$(TARGET_GCC_BUILDDIR)/gcc/xgcc \
+		      -B $(TARGET_GCC_BUILDDIR)/gcc \
+		      -isystem $(TARGET_GCC_BUILDDIR)/gcc/include-fixed \
+		      -isystem $(TARGET_GCC_BUILDDIR)/gcc/include"
+#
+# We need -Os as the overrides below interfere with --enable-target-optspace.
+# We also need -mandroid for for target libraries to pass linking test
+# in configuration.
+# 
+# To build libstdc++ with RTTI and exceptions do:
+#
+# CFLAGS_FOR_TARGET= -O2 -Os -g -fexceptions
+# CXXFLAGS_FOR_TARGET=$(CFLAGS_FOR_TARGET) -frtti
+# 
+CFLAGS_FOR_TARGET= -O2 -Os -g
+CXXFLAGS_FOR_TARGET=$(CFLAGS_FOR_TARGET)
+LDFLAGS_FOR_TARGET=-mandroid
+
+# Helper
+prefix-list = $(foreach e, $(2), $(join $1, $e))
+
+# find source directory for package. This can either be <srcdir>/<package>
+# or <objdir>/temp-src/<package>
+
+find-package-srcdir = $(shell \
+  if [ -f $(srcdir)/../$(firstword $(subst -, ,$1))/$(strip $1)/configure ]; then \
+     echo $(PACKAGE_TO_SRCDIR)/../$(firstword $(subst -, ,$1))/$(strip $1); \
+  elif [ -f $(abs_builddir)/temp-src/$(strip $1)/configure ]; then \
+    echo $(abs_builddir)/temp-src/$(strip $1) ; \
+  else \
+    echo 'error cannot find $(strip $1)' ; \
+  fi)
+
+#
+# Make rules
+#
+
+.PHONY: all clean
+
+all: build
+
+# top level
+build: build-target-binutils build-target-gcc build-target-gdb
+
+install: install-target-binutils install-target-gcc install-target-gdb
+
+# target binutils rules
+.PHONY: config-target-binutils build-target-binutils install-target-binutils
+config-target-binutils: stmp-config-target-binutils
+# We do not want to enable shared libraries in binutils
+BINUTILS_CONFIG_ARGS=--prefix=$(prefix) \
+	--target=${target_alias} --host=${host} --build=${build} \
+	$(baseargs) --disable-shared
+stmp-config-target-binutils: config.status
+	([ -d ${BINUTILS_VERSION} ] || \
+	  mkdir ${BINUTILS_VERSION}) && \
+	(cd ${BINUTILS_VERSION} ; \
+	 $(call find-package-srcdir, ${BINUTILS_VERSION})/configure \
+	  $(BINUTILS_CONFIG_ARGS)) && \
+	$(STAMP) $@
+build-target-binutils: stmp-build-target-binutils
+stmp-build-target-binutils: stmp-config-target-binutils
+	$(MAKE) -C ${BINUTILS_VERSION} && $(STAMP) $@
+install-target-binutils: stmp-build-target-binutils
+	$(MAKE) -C ${BINUTILS_VERSION} install
+
+# target gcc rules
+.PHONY: config-target-gcc build-target-gcc install-target-gcc
+config-target-gcc: stmp-config-target-gcc
+
+GCC_CONFIG_ARGS=--prefix=$(prefix) \
+	  --target=${target_alias} --host=${host} --build=${build} \
+	  --enable-languages=c,c++
+
+# For gcc versions 4.3.0 and later, gmp and mpfr are required.
+# Also build libgcc is a seperate sub-target in 4.3.0+.
+ifeq ($(GCC_MIN_VERSION_4_3_0),yes)
+stmp-config-target-gcc: stmp-install-host-gmp stmp-install-host-mpfr
+GCC_CONFIG_ARGS += --with-gmp=$(TEMP_INSTALLDIR) --with-mpfr=$(TEMP_INSTALLDIR)
+endif
+
+# Add Android specific gcc options.
+# FIXME: These should be overridable by configure options.
+
+
+# Target indenpendent Android gcc options.
+ifeq ($(BUILD_ANDROID_GCC),yes)
+GCC_CONFIG_ARGS += $(GCC_CONFIG_LIBSTDCXX_V3) --disable-libssp \
+	--enable-threads --disable-nls --disable-libmudflap --disable-libgomp \
+	--disable-libstdc__-v3 --disable-sjlj-exceptions --disable-shared \
+	--disable-tls
+CFLAGS_FOR_TARGET += -DTARGET_POSIX_IO -fno-short-enums
+# ARM specific options.
+ifeq ($(target_cpu),arm)
+GCC_CONFIG_ARGS += --with-float=soft --with-fpu=vfp --with-arch=armv5te \
+	--enable-target-optspace --with-abi=aapcs
+endif
+
+endif
+
+# We add the baseargs and the end so that they override any default args
+GCC_CONFIG_ARGS += $(baseargs)
+
+# We have to add -mandroid in target CFLAGS and CXXFLAGS
+stmp-config-target-gcc: config.status stmp-build-target-binutils
+	([ -d ${GCC_VERSION} ] || \
+	  mkdir ${GCC_VERSION}) && \
+	(cd ${GCC_VERSION} ; \
+	 $(TARGET_BINUTILS_EXPORTS) ; \
+	 export CFLAGS_FOR_TARGET="$(CFLAGS_FOR_TARGET)" ; \
+	 export CXXFLAGS_FOR_TARGET="$(CXXFLAGS_FOR_TARGET)" ; \
+	 export LDFLAGS_FOR_TARGET="$(LDFLAGS_FOR_TARGET)" ; \
+	 $(call find-package-srcdir, ${GCC_VERSION})/configure \
+	   $(GCC_CONFIG_ARGS)) && \
+	$(STAMP) $@
+build-target-gcc: stmp-build-target-gcc
+stmp-build-target-gcc: stmp-config-target-gcc
+	$(MAKE) -C ${GCC_VERSION} \
+		CFLAGS_FOR_TARGET="$(CFLAGS_FOR_TARGET)" \
+		CXXFLAGS_FOR_TARGET="$(CXXFLAGS_FOR_TARGET)" \
+		LDFLAGS_FOR_TARGET="$(LDFLAGS_FOR_TARGET)" \
+	&& $(STAMP) $@
+install-target-gcc: stmp-build-target-gcc
+	$(MAKE) -C ${GCC_VERSION} install
+
+# minimal gcc rules
+# minimal gcc only builds the C and C++ compilers and libgcc
+# We use the full gcc configure rules.
+.PHONY: build-target-minimal-gcc install-target-minimal-gcc
+ifeq ("$(GCC_MIN_VERSION_4_3_0)","yes")
+MINIMAL_GCC_BUILD_TARGETS:= gcc target-libgcc 
+else
+MINIMAL_GCC_BUILD_TARGETS:= gcc
+endif
+
+build-target-minimal-gcc: stmp-build-target-minimal-gcc
+stmp-build-target-minimal-gcc: stmp-config-target-gcc
+	$(MAKE) -C ${GCC_VERSION} \
+		$(call prefix-list, all-, $(MINIMAL_GCC_BUILD_TARGETS)) && \
+	$(STAMP) $@
+install-target-minimal-gcc: stmp-build-target-minimal-gcc
+	$(MAKE) -C ${GCC_VERSION} \
+		$(call prefix-list, install-, $(MINIMAL_GCC_BUILD_TARGETS))
+
+# target newlib rules
+.PHONY: config-target-newlib build-target-newlib install-target-newlib
+config-target-newlib: stmp-config-target-newlib
+NEWLIB_CONFIG_ARGS=$(baseargs) --prefix=$(prefix) \
+	  --target=${target_alias} --host=${host} --build=${build}
+
+stmp-config-target-newlib: stmp-build-target-binutils \
+			   stmp-build-target-minimal-gcc
+	([ -d ${NEWLIB_VERSION} ] || \
+	  mkdir ${NEWLIB_VERSION}) && \
+	(cd ${NEWLIB_VERSION} ; \
+	 $(TARGET_BINUTILS_EXPORTS) ; \
+	 $(TARGET_MINIMAL_GCC_EXPORTS) ; \
+	 $(call find-package-srcdir, ${NEWLIB_VERSION})/configure \
+	  $(NEWLIB_CONFIG_ARGS && \
+	$(STAMP) $@
+stmp-build-target-newlib: stmp-config-target-newlib
+	$(MAKE) -C ${NEWLIB_VERSION} && $(STAMP) $@
+install-target-newlib: stmp-build-target-newlib
+	$(MAKE) -C ${NEWLIB_VERSION} install
+
+# host gmp rules
+.PHONY: config-host-gmp build-host-gmp install-host-gmp
+config-host-gmp: stmp-config-host-gmp
+GMP_CONFIG_ARGS=$(baseargs) --prefix=$(TEMP_INSTALLDIR) --disable-shared \
+	  --host=${host} --build=${build}
+stmp-config-host-gmp: config.status
+	([ -d ${GMP_VERSION} ] || \
+	  mkdir ${GMP_VERSION}) && \
+	(cd ${GMP_VERSION} ; \
+	 $(call find-package-srcdir, ${GMP_VERSION})/configure \
+	  $(GMP_CONFIG_ARGS)) && \
+	$(STAMP) $@
+stmp-build-host-gmp: stmp-config-host-gmp
+	$(MAKE) -C ${GMP_VERSION} && $(STAMP) $@
+build-host-gmp: stmp-build-host-gmp
+# Need -j1 to avoid a race condition in building on OS X.
+stmp-install-host-gmp: stmp-build-host-gmp
+	$(MAKE) -C ${GMP_VERSION} install -j1 && \
+	$(STAMP) $@
+install-host-gmp: stmp-install-host-gmp
+
+# host mpfr rules
+.PHONY: config-host-mpfr build-host-mpfr install-host-mpfr
+config-host-mpfr: stmp-config-host-mpfr
+MPFR_CONFIG_ARGS=$(baseargs) --prefix=$(TEMP_INSTALLDIR) --disable-shared \
+	  --host=${host} --build=${build} --with-gmp=$(TEMP_INSTALLDIR)
+stmp-config-host-mpfr: config.status stmp-install-host-gmp
+	([ -d ${MPFR_VERSION} ] || \
+	  mkdir ${MPFR_VERSION}) && \
+	(cd ${MPFR_VERSION} ; \
+	 $(call find-package-srcdir, ${MPFR_VERSION})/configure \
+	  $(MPFR_CONFIG_ARGS)) && \
+	$(STAMP) $@
+stmp-build-host-mpfr: stmp-config-host-mpfr
+	$(MAKE) -C ${MPFR_VERSION} && $(STAMP) $@
+build-host-mpfr: stmp-build-host-mpfr
+stmp-install-host-mpfr: stmp-build-host-mpfr
+	$(MAKE) -C ${MPFR_VERSION} install && \
+	$(STAMP) $@
+install-host-mpfr: stmp-install-host-mpfr
+
+# target gdb rules
+.PHONY: config-target-gdb build-target-gdb install-target-gdb
+config-target-gdb: stmp-config-target-gdb
+
+GDB_CONFIG_ARGS=$(baseargs) --prefix=$(prefix) \
+	  --target=$(GDB_TARGET) --host=${host} --build=${build}
+
+stmp-config-target-gdb: config.status
+	([ -d ${GDB_VERSION} ] || \
+	  mkdir ${GDB_VERSION}) && \
+	(cd ${GDB_VERSION} ; \
+	 $(call find-package-srcdir, ${GDB_VERSION})/configure \
+	  $(GDB_CONFIG_ARGS)) && \
+	$(STAMP) $@
+build-target-gdb: stmp-build-target-gdb
+stmp-build-target-gdb: stmp-config-target-gdb
+	$(MAKE) -C ${GDB_VERSION} && $(STAMP) $@
+install-target-gdb: stmp-build-target-gdb
+	$(MAKE) -C ${GDB_VERSION} install
+
+# clean rules
+.PHONY: clean
+clean:
+	$(RM) -r $(TEMP_INSTALLDIR) stmp-build-* stmp-install-* && \
+	for sub in [ * ]; do \
+	  if [ -f $$sub/Makefile ]; then \
+	    $(MAKE) -C $$sub clean ; \
+	  fi; \
+	done
