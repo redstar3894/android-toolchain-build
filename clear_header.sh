@@ -85,7 +85,7 @@ for one_header in ${installed_headers}; do
       text="Y"
     fi
     if [[ "${text}" = "Y" || "${text}" = "y" ]]; then
-      rm ${one_header}
+      rm -f ${one_header}
       echo "... Removed!"
     fi
   fi

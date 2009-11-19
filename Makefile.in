@@ -238,7 +238,7 @@ stmp-config-target-newlib: stmp-build-target-binutils \
 	 $(TARGET_BINUTILS_EXPORTS) ; \
 	 $(TARGET_MINIMAL_GCC_EXPORTS) ; \
 	 $(call find-package-srcdir, ${NEWLIB_VERSION})/configure \
-	  $(NEWLIB_CONFIG_ARGS && \
+	  $(NEWLIB_CONFIG_ARGS)) && \
 	$(STAMP) $@
 stmp-build-target-newlib: stmp-config-target-newlib
 	$(MAKE) -C ${NEWLIB_VERSION} && $(STAMP) $@
