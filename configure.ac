@@ -251,11 +251,19 @@ if test -f "${gcc_version_file}"; then
   else
     GCC_MIN_VERSION_4_3_0="no"
   fi
+  if test "$GCC_MAJOR" -gt 4 -o \
+              \( "$GCC_MAJOR" -eq 4 -a "$GCC_MINOR" -ge 5 \) ; then
+    GCC_MIN_VERSION_4_5_0="yes"
+  else
+    GCC_MIN_VERSION_4_5_0="no"
+  fi
 else
   # No version file, assume it is trunk
   GCC_MIN_VERSION_4_3_0="yes"
+  GCC_MIN_VERSION_4_5_0="yes"
 fi
 AC_SUBST(GCC_MIN_VERSION_4_3_0)
+AC_SUBST(GCC_MIN_VERSION_4_5_0)
 
 # newlib version (default is 1.16.0)
 # newlib is only used for arm-newlib-eabi for testing
@@ -303,6 +311,22 @@ ANDROID_CHECK_PACKAGE(mpfr-${MPFR_VERSION})
 fi
 AC_SUBST(GMP_VERSION)
 AC_SUBST(MPFR_VERSION)
+
+if test "$GCC_MIN_VERSION_4_5_0" == "yes"; then
+# mpc version (default is 0.8.1)
+# mpc is only used for gcc version higher than 4.5.0
+AC_MSG_CHECKING([mpc version])
+AC_ARG_WITH([mpc-version],
+  [  --with-mpc-version=VERSION
+                          use mpc-VERSION (default is 0.8.1)],
+  [if test x"$withval" != x; then
+     MPC_VERSION="$withval"
+   fi],
+[MPC_VERSION="0.8.1"])
+AC_MSG_RESULT($MPC_VERSION)
+ANDROID_CHECK_PACKAGE(mpc-${MPC_VERSION})
+fi
+AC_SUBST(MPC_VERSION)
 
 # gdb version (default is 6.6)
 AC_MSG_CHECKING([target gdb version to build])

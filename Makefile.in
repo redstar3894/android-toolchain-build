@@ -49,6 +49,7 @@ abs_builddir = @abs_builddir@
 TOPLEVEL_CONFIGURE_ARGUMENTS:=@TOPLEVEL_CONFIGURE_ARGUMENTS@
 baseargs = @baseargs@
 GCC_MIN_VERSION_4_3_0:=@GCC_MIN_VERSION_4_3_0@
+GCC_MIN_VERSION_4_5_0:=@GCC_MIN_VERSION_4_5_0@
 PACKAGE_TO_SRCDIR:=@package_to_srcdir@
 BUILD_ANDROID_GCC:=@BUILD_ANDROID_GCC@
 GDB_TARGET:=@GDB_TARGET@
@@ -63,6 +64,7 @@ GCC_VERSION=gcc-@GCC_VERSION@
 NEWLIB_VERSION=newlib-@NEWLIB_VERSION@
 GMP_VERSION=gmp-@GMP_VERSION@
 MPFR_VERSION=mpfr-@MPFR_VERSION@
+MPC_VERSION=mpc-@MPC_VERSION@
 GDB_VERSION=gdb-@GDB_VERSION@
 STAMP=touch
 
@@ -159,6 +161,12 @@ GCC_CONFIG_ARGS=--prefix=$(prefix) \
 ifeq ($(GCC_MIN_VERSION_4_3_0),yes)
 stmp-config-target-gcc: stmp-install-host-gmp stmp-install-host-mpfr
 GCC_CONFIG_ARGS += --with-gmp=$(TEMP_INSTALLDIR) --with-mpfr=$(TEMP_INSTALLDIR)
+endif
+
+# For gcc versions 4.5.0 and higher, mpc is required.
+ifeq ($(GCC_MIN_VERSION_4_5_0),yes)
+stmp-config-target-gcc: stmp-install-host-mpc
+GCC_CONFIG_ARGS += --with-mpc=$(TEMP_INSTALLDIR)
 endif
 
 # Add Android specific gcc options.
@@ -285,6 +293,26 @@ stmp-install-host-mpfr: stmp-build-host-mpfr
 	$(MAKE) -C ${MPFR_VERSION} install && \
 	$(STAMP) $@
 install-host-mpfr: stmp-install-host-mpfr
+
+# host mpc rules
+.PHONY: config-host-mpc build-host-mpc install-host-mpc
+config-host-mpc: stmp-config-host-mpc
+MPC_CONFIG_ARGS=$(baseargs) --prefix=$(TEMP_INSTALLDIR) --disable-shared \
+	 --host=${host} --build=${build}
+stmp-config-host-mpc: config.status
+	([ -d ${MPC_VERSION} ] || \
+	  mkdir ${MPC_VERSION}) && \
+	(cd ${MPC_VERSION} ; \
+	 $(call find-package-srcdir, ${MPC_VERSION})/configure \
+	  $(MPC_CONFIG_ARGS)) && \
+	$(STAMP) $@
+stmp-build-host-mpc: stmp-config-host-mpc
+	$(MAKE) -C ${MPC_VERSION} && $(STAMP) $@
+build-host-mpc: stmp-build-host-mpc
+stmp-install-host-mpc: stmp-build-host-mpc
+	$(MAKE) -C ${MPC_VERSION} install && \
+	$(STAMP) $@
+install-host-mpc: stmp-install-host-mpc
 
 # target gdb rules
 .PHONY: config-target-gdb build-target-gdb install-target-gdb

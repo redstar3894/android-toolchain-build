@@ -47,6 +47,7 @@ following options:
   --with-newlib-version=<newlib version>
   --with-gmp-version=<gmp version>
   --with-mpfr-version=<mpfr version>
+  --with-mpc-version=<mpc version>
   --with-gdb-version=<gdb version>
 
 These are used to select the desired version of a particular GNU tool

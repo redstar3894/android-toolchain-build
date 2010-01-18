@@ -633,9 +633,11 @@ package_to_srcdir
 BINUTILS_VERSION
 GCC_VERSION
 GCC_MIN_VERSION_4_3_0
+GCC_MIN_VERSION_4_5_0
 NEWLIB_VERSION
 GMP_VERSION
 MPFR_VERSION
+MPC_VERSION
 GDB_VERSION
 LIBOBJS
 LTLIBOBJS'
@@ -1233,6 +1235,8 @@ Optional Packages:
                           use gmp-VERSION (default is 4.2.2)
   --with-mpfr-version=VERSION
                           use mpfr-VERSION (default is 2.3.0)
+  --with-mpc-version=VERSION
+                          use mpc-VERSION (default is 0.8.1)
   --with-gdb-version=VERSION
                           use gdb-VERSION (default is 6.6)
 
@@ -2103,10 +2107,18 @@ if test -f "${gcc_version_file}"; then
   else
     GCC_MIN_VERSION_4_3_0="no"
   fi
+  if test "$GCC_MAJOR" -gt 4 -o \
+              \( "$GCC_MAJOR" -eq 4 -a "$GCC_MINOR" -ge 5 \) ; then
+    GCC_MIN_VERSION_4_5_0="yes"
+  else
+    GCC_MIN_VERSION_4_5_0="no"
+  fi
 else
   # No version file, assume it is trunk
   GCC_MIN_VERSION_4_3_0="yes"
+  GCC_MIN_VERSION_4_5_0="yes"
 fi
+
 
 
 # newlib version (default is 1.16.0)
@@ -2214,6 +2226,42 @@ fi
 
 fi
 
+
+
+if test "$GCC_MIN_VERSION_4_5_0" == "yes"; then
+# mpc version (default is 0.8.1)
+# mpc is only used for gcc version higher than 4.5.0
+{ echo "$as_me:$LINENO: checking mpc version" >&5
+echo $ECHO_N "checking mpc version... $ECHO_C" >&6; }
+
+# Check whether --with-mpc-version was given.
+if test "${with_mpc_version+set}" = set; then
+  withval=$with_mpc_version; if test x"$withval" != x; then
+     MPC_VERSION="$withval"
+   fi
+else
+  MPC_VERSION="0.8.1"
+fi
+
+{ echo "$as_me:$LINENO: result: $MPC_VERSION" >&5
+echo "${ECHO_T}$MPC_VERSION" >&6; }
+x=mpc-${MPC_VERSION}; tool=${x%-*}; \
+if test ! -d $srcdir/../$tool/mpc-${MPC_VERSION} ; then
+  if test -f $srcdir/../$tool/mpc-${MPC_VERSION}.tar ; then
+    mkdir -p temp-src && tar -C temp-src -xf $srcdir/../$tool/mpc-${MPC_VERSION}.tar
+  elif test -f $srcdir/../$tool/mpc-${MPC_VERSION}.tar.gz ; then
+    mkdir -p temp-src && tar -C temp-src -xzf $srcdir/../$tool/mpc-${MPC_VERSION}.tar.gz
+  elif test -f $srcdir/../$tool/mpc-${MPC_VERSION}.tgz ; then
+    mkdir -p temp-src && tar -C temp-src -xzf $srcdir/../$tool/mpc-${MPC_VERSION}.tgz
+  elif test -f $srcdir/../$tool/mpc-${MPC_VERSION}.tar.bz2 ; then
+    mkdir -p temp-src && tar -C temp-src -xjf $srcdir/../$tool/mpc-${MPC_VERSION}.tar.bz2
+  else
+    { { echo "$as_me:$LINENO: error: 'package mpc-${MPC_VERSION} does not exist.'" >&5
+echo "$as_me: error: 'package mpc-${MPC_VERSION} does not exist.'" >&2;}
+   { (exit 1); exit 1; }; }
+  fi
+fi
+fi
 
 
 # gdb version (default is 6.6)
@@ -2934,15 +2982,17 @@ package_to_srcdir!$package_to_srcdir$ac_delim
 BINUTILS_VERSION!$BINUTILS_VERSION$ac_delim
 GCC_VERSION!$GCC_VERSION$ac_delim
 GCC_MIN_VERSION_4_3_0!$GCC_MIN_VERSION_4_3_0$ac_delim
+GCC_MIN_VERSION_4_5_0!$GCC_MIN_VERSION_4_5_0$ac_delim
 NEWLIB_VERSION!$NEWLIB_VERSION$ac_delim
 GMP_VERSION!$GMP_VERSION$ac_delim
 MPFR_VERSION!$MPFR_VERSION$ac_delim
+MPC_VERSION!$MPC_VERSION$ac_delim
 GDB_VERSION!$GDB_VERSION$ac_delim
 LIBOBJS!$LIBOBJS$ac_delim
 LTLIBOBJS!$LTLIBOBJS$ac_delim
 _ACEOF
 
-  if test `sed -n "s/.*$ac_delim\$/X/p" conf$$subs.sed | grep -c X` = 63; then
+  if test `sed -n "s/.*$ac_delim\$/X/p" conf$$subs.sed | grep -c X` = 65; then
     break
   elif $ac_last_try; then
     { { echo "$as_me:$LINENO: error: could not make $CONFIG_STATUS" >&5
