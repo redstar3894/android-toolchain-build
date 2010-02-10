@@ -208,6 +208,14 @@ if test ! -d $srcdir/../$tool/$1 ; then
     mkdir -p temp-src && tar -C temp-src -xzf $srcdir/../$tool/$1.tgz
   elif test -f $srcdir/../$tool/$1.tar.bz2 ; then
     mkdir -p temp-src && tar -C temp-src -xjf $srcdir/../$tool/$1.tar.bz2
+  elif test -f $srcdir/../tarballs/$1.tar ; then
+    mkdir -p temp-src && tar -C temp-src -xf $srcdir/../tarballs/$1.tar
+  elif test -f $srcdir/../tarballs/$1.tar.gz ; then
+    mkdir -p temp-src && tar -C temp-src -xzf $srcdir/../tarballs/$1.tar.gz
+  elif test -f $srcdir/../tarballs/$1.tgz ; then
+    mkdir -p temp-src && tar -C temp-src -xzf $srcdir/../tarballs/$1.tgz
+  elif test -f $srcdir/../tarballs/$1.tar.bz2 ; then
+    mkdir -p temp-src && tar -C temp-src -xjf $srcdir/../tarballs/$1.tar.bz2
   else
     AC_MSG_ERROR('package $1 does not exist.')
   fi
@@ -240,7 +248,7 @@ AC_SUBST(GCC_VERSION)
 ANDROID_CHECK_PACKAGE(gcc-${GCC_VERSION})
 
 # figure out if we need to build gmp and mpfr for gcc 4.3.0+ 
-gcc_version_file="${srcdir}/gcc-${GCC_VERSION}/gcc/BASE-VER"
+gcc_version_file="${srcdir}/../gcc/gcc-${GCC_VERSION}/gcc/BASE-VER"
 if test -f "${gcc_version_file}"; then
   GCC_MAJOR=`head -n 1 $gcc_version_file | sed  -e "s/[[^0-9]].*//"`
   GCC_MINOR=`head -n 1 $gcc_version_file | \

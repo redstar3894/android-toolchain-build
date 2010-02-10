@@ -2055,6 +2055,14 @@ if test ! -d $srcdir/../$tool/binutils-${BINUTILS_VERSION} ; then
     mkdir -p temp-src && tar -C temp-src -xzf $srcdir/../$tool/binutils-${BINUTILS_VERSION}.tgz
   elif test -f $srcdir/../$tool/binutils-${BINUTILS_VERSION}.tar.bz2 ; then
     mkdir -p temp-src && tar -C temp-src -xjf $srcdir/../$tool/binutils-${BINUTILS_VERSION}.tar.bz2
+  elif test -f $srcdir/../tarballs/binutils-${BINUTILS_VERSION}.tar ; then
+    mkdir -p temp-src && tar -C temp-src -xf $srcdir/../tarballs/binutils-${BINUTILS_VERSION}.tar
+  elif test -f $srcdir/../tarballs/binutils-${BINUTILS_VERSION}.tar.gz ; then
+    mkdir -p temp-src && tar -C temp-src -xzf $srcdir/../tarballs/binutils-${BINUTILS_VERSION}.tar.gz
+  elif test -f $srcdir/../tarballs/binutils-${BINUTILS_VERSION}.tgz ; then
+    mkdir -p temp-src && tar -C temp-src -xzf $srcdir/../tarballs/binutils-${BINUTILS_VERSION}.tgz
+  elif test -f $srcdir/../tarballs/binutils-${BINUTILS_VERSION}.tar.bz2 ; then
+    mkdir -p temp-src && tar -C temp-src -xjf $srcdir/../tarballs/binutils-${BINUTILS_VERSION}.tar.bz2
   else
     { { echo "$as_me:$LINENO: error: 'package binutils-${BINUTILS_VERSION} does not exist.'" >&5
 echo "$as_me: error: 'package binutils-${BINUTILS_VERSION} does not exist.'" >&2;}
@@ -2088,6 +2096,14 @@ if test ! -d $srcdir/../$tool/gcc-${GCC_VERSION} ; then
     mkdir -p temp-src && tar -C temp-src -xzf $srcdir/../$tool/gcc-${GCC_VERSION}.tgz
   elif test -f $srcdir/../$tool/gcc-${GCC_VERSION}.tar.bz2 ; then
     mkdir -p temp-src && tar -C temp-src -xjf $srcdir/../$tool/gcc-${GCC_VERSION}.tar.bz2
+  elif test -f $srcdir/../tarballs/gcc-${GCC_VERSION}.tar ; then
+    mkdir -p temp-src && tar -C temp-src -xf $srcdir/../tarballs/gcc-${GCC_VERSION}.tar
+  elif test -f $srcdir/../tarballs/gcc-${GCC_VERSION}.tar.gz ; then
+    mkdir -p temp-src && tar -C temp-src -xzf $srcdir/../tarballs/gcc-${GCC_VERSION}.tar.gz
+  elif test -f $srcdir/../tarballs/gcc-${GCC_VERSION}.tgz ; then
+    mkdir -p temp-src && tar -C temp-src -xzf $srcdir/../tarballs/gcc-${GCC_VERSION}.tgz
+  elif test -f $srcdir/../tarballs/gcc-${GCC_VERSION}.tar.bz2 ; then
+    mkdir -p temp-src && tar -C temp-src -xjf $srcdir/../tarballs/gcc-${GCC_VERSION}.tar.bz2
   else
     { { echo "$as_me:$LINENO: error: 'package gcc-${GCC_VERSION} does not exist.'" >&5
 echo "$as_me: error: 'package gcc-${GCC_VERSION} does not exist.'" >&2;}
@@ -2096,7 +2112,7 @@ echo "$as_me: error: 'package gcc-${GCC_VERSION} does not exist.'" >&2;}
 fi
 
 # figure out if we need to build gmp and mpfr for gcc 4.3.0+
-gcc_version_file="${srcdir}/gcc-${GCC_VERSION}/gcc/BASE-VER"
+gcc_version_file="${srcdir}/../gcc/gcc-${GCC_VERSION}/gcc/BASE-VER"
 if test -f "${gcc_version_file}"; then
   GCC_MAJOR=`head -n 1 $gcc_version_file | sed  -e "s/[^0-9].*//"`
   GCC_MINOR=`head -n 1 $gcc_version_file | \
@@ -2149,6 +2165,14 @@ if test ! -d $srcdir/../$tool/newlib-${NEWLIB_VERSION} ; then
     mkdir -p temp-src && tar -C temp-src -xzf $srcdir/../$tool/newlib-${NEWLIB_VERSION}.tgz
   elif test -f $srcdir/../$tool/newlib-${NEWLIB_VERSION}.tar.bz2 ; then
     mkdir -p temp-src && tar -C temp-src -xjf $srcdir/../$tool/newlib-${NEWLIB_VERSION}.tar.bz2
+  elif test -f $srcdir/../tarballs/newlib-${NEWLIB_VERSION}.tar ; then
+    mkdir -p temp-src && tar -C temp-src -xf $srcdir/../tarballs/newlib-${NEWLIB_VERSION}.tar
+  elif test -f $srcdir/../tarballs/newlib-${NEWLIB_VERSION}.tar.gz ; then
+    mkdir -p temp-src && tar -C temp-src -xzf $srcdir/../tarballs/newlib-${NEWLIB_VERSION}.tar.gz
+  elif test -f $srcdir/../tarballs/newlib-${NEWLIB_VERSION}.tgz ; then
+    mkdir -p temp-src && tar -C temp-src -xzf $srcdir/../tarballs/newlib-${NEWLIB_VERSION}.tgz
+  elif test -f $srcdir/../tarballs/newlib-${NEWLIB_VERSION}.tar.bz2 ; then
+    mkdir -p temp-src && tar -C temp-src -xjf $srcdir/../tarballs/newlib-${NEWLIB_VERSION}.tar.bz2
   else
     { { echo "$as_me:$LINENO: error: 'package newlib-${NEWLIB_VERSION} does not exist.'" >&5
 echo "$as_me: error: 'package newlib-${NEWLIB_VERSION} does not exist.'" >&2;}
@@ -2184,6 +2208,14 @@ if test ! -d $srcdir/../$tool/gmp-${GMP_VERSION} ; then
     mkdir -p temp-src && tar -C temp-src -xzf $srcdir/../$tool/gmp-${GMP_VERSION}.tgz
   elif test -f $srcdir/../$tool/gmp-${GMP_VERSION}.tar.bz2 ; then
     mkdir -p temp-src && tar -C temp-src -xjf $srcdir/../$tool/gmp-${GMP_VERSION}.tar.bz2
+  elif test -f $srcdir/../tarballs/gmp-${GMP_VERSION}.tar ; then
+    mkdir -p temp-src && tar -C temp-src -xf $srcdir/../tarballs/gmp-${GMP_VERSION}.tar
+  elif test -f $srcdir/../tarballs/gmp-${GMP_VERSION}.tar.gz ; then
+    mkdir -p temp-src && tar -C temp-src -xzf $srcdir/../tarballs/gmp-${GMP_VERSION}.tar.gz
+  elif test -f $srcdir/../tarballs/gmp-${GMP_VERSION}.tgz ; then
+    mkdir -p temp-src && tar -C temp-src -xzf $srcdir/../tarballs/gmp-${GMP_VERSION}.tgz
+  elif test -f $srcdir/../tarballs/gmp-${GMP_VERSION}.tar.bz2 ; then
+    mkdir -p temp-src && tar -C temp-src -xjf $srcdir/../tarballs/gmp-${GMP_VERSION}.tar.bz2
   else
     { { echo "$as_me:$LINENO: error: 'package gmp-${GMP_VERSION} does not exist.'" >&5
 echo "$as_me: error: 'package gmp-${GMP_VERSION} does not exist.'" >&2;}
@@ -2217,6 +2249,14 @@ if test ! -d $srcdir/../$tool/mpfr-${MPFR_VERSION} ; then
     mkdir -p temp-src && tar -C temp-src -xzf $srcdir/../$tool/mpfr-${MPFR_VERSION}.tgz
   elif test -f $srcdir/../$tool/mpfr-${MPFR_VERSION}.tar.bz2 ; then
     mkdir -p temp-src && tar -C temp-src -xjf $srcdir/../$tool/mpfr-${MPFR_VERSION}.tar.bz2
+  elif test -f $srcdir/../tarballs/mpfr-${MPFR_VERSION}.tar ; then
+    mkdir -p temp-src && tar -C temp-src -xf $srcdir/../tarballs/mpfr-${MPFR_VERSION}.tar
+  elif test -f $srcdir/../tarballs/mpfr-${MPFR_VERSION}.tar.gz ; then
+    mkdir -p temp-src && tar -C temp-src -xzf $srcdir/../tarballs/mpfr-${MPFR_VERSION}.tar.gz
+  elif test -f $srcdir/../tarballs/mpfr-${MPFR_VERSION}.tgz ; then
+    mkdir -p temp-src && tar -C temp-src -xzf $srcdir/../tarballs/mpfr-${MPFR_VERSION}.tgz
+  elif test -f $srcdir/../tarballs/mpfr-${MPFR_VERSION}.tar.bz2 ; then
+    mkdir -p temp-src && tar -C temp-src -xjf $srcdir/../tarballs/mpfr-${MPFR_VERSION}.tar.bz2
   else
     { { echo "$as_me:$LINENO: error: 'package mpfr-${MPFR_VERSION} does not exist.'" >&5
 echo "$as_me: error: 'package mpfr-${MPFR_VERSION} does not exist.'" >&2;}
@@ -2255,6 +2295,14 @@ if test ! -d $srcdir/../$tool/mpc-${MPC_VERSION} ; then
     mkdir -p temp-src && tar -C temp-src -xzf $srcdir/../$tool/mpc-${MPC_VERSION}.tgz
   elif test -f $srcdir/../$tool/mpc-${MPC_VERSION}.tar.bz2 ; then
     mkdir -p temp-src && tar -C temp-src -xjf $srcdir/../$tool/mpc-${MPC_VERSION}.tar.bz2
+  elif test -f $srcdir/../tarballs/mpc-${MPC_VERSION}.tar ; then
+    mkdir -p temp-src && tar -C temp-src -xf $srcdir/../tarballs/mpc-${MPC_VERSION}.tar
+  elif test -f $srcdir/../tarballs/mpc-${MPC_VERSION}.tar.gz ; then
+    mkdir -p temp-src && tar -C temp-src -xzf $srcdir/../tarballs/mpc-${MPC_VERSION}.tar.gz
+  elif test -f $srcdir/../tarballs/mpc-${MPC_VERSION}.tgz ; then
+    mkdir -p temp-src && tar -C temp-src -xzf $srcdir/../tarballs/mpc-${MPC_VERSION}.tgz
+  elif test -f $srcdir/../tarballs/mpc-${MPC_VERSION}.tar.bz2 ; then
+    mkdir -p temp-src && tar -C temp-src -xjf $srcdir/../tarballs/mpc-${MPC_VERSION}.tar.bz2
   else
     { { echo "$as_me:$LINENO: error: 'package mpc-${MPC_VERSION} does not exist.'" >&5
 echo "$as_me: error: 'package mpc-${MPC_VERSION} does not exist.'" >&2;}
@@ -2290,6 +2338,14 @@ if test ! -d $srcdir/../$tool/gdb-${GDB_VERSION} ; then
     mkdir -p temp-src && tar -C temp-src -xzf $srcdir/../$tool/gdb-${GDB_VERSION}.tgz
   elif test -f $srcdir/../$tool/gdb-${GDB_VERSION}.tar.bz2 ; then
     mkdir -p temp-src && tar -C temp-src -xjf $srcdir/../$tool/gdb-${GDB_VERSION}.tar.bz2
+  elif test -f $srcdir/../tarballs/gdb-${GDB_VERSION}.tar ; then
+    mkdir -p temp-src && tar -C temp-src -xf $srcdir/../tarballs/gdb-${GDB_VERSION}.tar
+  elif test -f $srcdir/../tarballs/gdb-${GDB_VERSION}.tar.gz ; then
+    mkdir -p temp-src && tar -C temp-src -xzf $srcdir/../tarballs/gdb-${GDB_VERSION}.tar.gz
+  elif test -f $srcdir/../tarballs/gdb-${GDB_VERSION}.tgz ; then
+    mkdir -p temp-src && tar -C temp-src -xzf $srcdir/../tarballs/gdb-${GDB_VERSION}.tgz
+  elif test -f $srcdir/../tarballs/gdb-${GDB_VERSION}.tar.bz2 ; then
+    mkdir -p temp-src && tar -C temp-src -xjf $srcdir/../tarballs/gdb-${GDB_VERSION}.tar.bz2
   else
     { { echo "$as_me:$LINENO: error: 'package gdb-${GDB_VERSION} does not exist.'" >&5
 echo "$as_me: error: 'package gdb-${GDB_VERSION} does not exist.'" >&2;}

@@ -298,8 +298,9 @@ install-host-mpfr: stmp-install-host-mpfr
 .PHONY: config-host-mpc build-host-mpc install-host-mpc
 config-host-mpc: stmp-config-host-mpc
 MPC_CONFIG_ARGS=$(baseargs) --prefix=$(TEMP_INSTALLDIR) --disable-shared \
-	 --host=${host} --build=${build}
-stmp-config-host-mpc: config.status
+	 --host=${host} --build=${build} --with-gmp=$(TEMP_INSTALLDIR) \
+	 --with-mpfr=$(TEMP_INSTALLDIR)
+stmp-config-host-mpc: config.status stmp-install-host-gmp stmp-install-host-mpfr
 	([ -d ${MPC_VERSION} ] || \
 	  mkdir ${MPC_VERSION}) && \
 	(cd ${MPC_VERSION} ; \
