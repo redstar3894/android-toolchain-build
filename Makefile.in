@@ -72,14 +72,19 @@ TARGET_BINUTILS_BUILDDIR=$(abs_builddir)/$(BINUTILS_VERSION)
 TARGET_GCC_BUILDDIR=$(abs_builddir)/$(GCC_VERSION)
 TEMP_INSTALLDIR=$(abs_builddir)/temp-install
 
+# Figure out where to find the ld binary.
+FIND_TARGET_LD=\
+	`[ -d $(TARGET_BINUTILS_BUILDDIR)/gold ] && echo "gold" || echo "ld"`
+
 # We export these insteading when configuring target gcc and newlib
 TARGET_BINUTILS_EXPORTS= \
 export	AS_FOR_TARGET=$(TARGET_BINUTILS_BUILDDIR)/gas/as-new \
-	LD_FOR_TARGET=$(TARGET_BINUTILS_BUILDDIR)/ld/ld-new \
+	LD_FOR_TARGET=$(TARGET_BINUTILS_BUILDDIR)/$(FIND_TARGET_LD)/ld-new \
 	AR_FOR_TARGET=$(TARGET_BINUTILS_BUILDDIR)/binutils/ar \
 	NM_FOR_TARGET=$(TARGET_BINUTILS_BUILDDIR)/binutils/nm-new \
 	STRIP_FOR_TARGET=$(TARGET_BINUTILS_BUILDDIR)/binutils/strip-new \
-	RANLIB_FOR_TARGET=$(TARGET_BINUTILS_BUILDDIR)/binutils/ranlib
+	RANLIB_FOR_TARGET=$(TARGET_BINUTILS_BUILDDIR)/binutils/ranlib \
+	OBJDUMP_FOR_TARGET=$(TARGET_BINUTILS_BUILDDIR)/binutils/objdump
 
 TARGET_MINIMAL_GCC_EXPORTS= \
 export	CC_FOR_TARGET="$(TARGET_GCC_BUILDDIR)/gcc/xgcc \
