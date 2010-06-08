@@ -325,7 +325,8 @@ install-host-mpc: stmp-install-host-mpc
 config-target-gdb: stmp-config-target-gdb
 
 GDB_CONFIG_ARGS=$(baseargs) --prefix=$(prefix) \
-	  --target=$(GDB_TARGET) --host=${host} --build=${build}
+	--target=$(GDB_TARGET) --host=${host} --build=${build} \
+	--disable-nls
 
 stmp-config-target-gdb: config.status
 	([ -d ${GDB_VERSION} ] || \
