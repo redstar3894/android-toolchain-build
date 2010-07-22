@@ -11,7 +11,7 @@
 # General Public License for more details.
 #
 
-AC_INIT(android-tools,1.0)
+AC_INIT(android-tools,2.0)
 AC_PREREQ(2.59)
 
 AC_CONFIG_FILES([Makefile])
@@ -19,14 +19,14 @@ AC_CONFIG_FILES([Makefile])
 AC_CANONICAL_SYSTEM
 
 # We only allow the following 3 targets:
-# 1. arm-android-eabi (primary target)
-# 2. arm-eabi (to be phased out.)
+# 1. arm-linux-androideabi (primary target)
+# 2. arm-eabi (for Android kernel)
 # 3. arm-newlib-eabi (for gcc testing)
 # 4.i[3456]86-*-linux-gnu, x86-*-linux-gnu (for x86 targets)
 
 GDB_TARGET=$target
 case $target in
-  arm-android-eabi | arm-unknown-eabi)
+  arm-unknown-linux-androideabi | arm-unknown-eabi)
     BUILD_ANDROID_GCC=yes
     GDB_TARGET=arm-elf-linux
     ;;

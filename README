@@ -12,15 +12,15 @@ The Android tool-chain supports the following hosts:
 
 The Android toolchain supports the following targets:
 
-   a. arm-eabi
-   b. arm-newlib-eabi	(for runnng gcc regression tests)
-   c. i[3456]86-*-linux-gnu, x86_64-*-linux-gnu	(for x86 targets)
+   a. arm-linux-androideabi
+   b. arm-eabi  (for Android kernel)
+   c. arm-newlib-eabi	(for runnng gcc regression tests)
+   d. i[3456]86-*-linux-gnu, x86_64-*-linux-gnu	(for x86 targets)
 
-Currently we are using a modified arm-eabi target for Android.  To facilitate
-integrating our changes back to the FSF code bases for different tools, we
-may adopt an Android specific target arm-android-eabi some time in the future.
-The arm-newlib-eabi target is mainly used to run the gcc test suite with the
-gnu ARM emulator.
+Currently we are using arm-linux-androideabi target for general Android use.
+This target is already in gcc upstream. arm-eabi target is only used to
+compile Android kernel. The arm-newlib-eabi target is mainly used to run
+the gcc test suite with the gnu ARM emulator.
 
 2. Configuring the toolchain
 
