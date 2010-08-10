@@ -32,9 +32,15 @@ for option in $@; do
     --prefix=*)
       PREFIX=${optarg}
       if [[ ! -d ${PREFIX}/lib/gcc/arm-eabi ]]; then
-        echo "Error: ${PREFIX} is not a correct toolchain prefix path!"
-        usage
-        exit 1
+        if [[ ! -d ${PREFIX}/lib/gcc/arm-linux-androideabi ]]; then
+          echo "Error: ${PREFIX} is not a correct toolchain prefix path!"
+          usage
+          exit 1
+        else
+          build_target="arm-linux-androideabi"
+        fi
+      else
+        build_target="arm-eabi"
       fi
       ;;
     --sysroot=*)
@@ -69,7 +75,7 @@ if [[ ! -d ${INCLUDE_ROOT} ]]; then
   exit 1
 fi
 
-installed_headers=`find ${PREFIX}/lib/gcc/arm-eabi/*/include-fixed -name "*\.h"`
+installed_headers=`find ${PREFIX}/lib/gcc/${build_target}/*/include-fixed -name "*\.h"`
 
 for one_header in ${installed_headers}; do
   header_name=${one_header##*/}
