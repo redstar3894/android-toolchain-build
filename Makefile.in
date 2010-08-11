@@ -353,3 +353,15 @@ clean:
 	    $(MAKE) -C $$sub clean ; \
 	  fi; \
 	done
+
+.PHONY: distclean
+distclean:
+	@$(RM) -r config.log config.status \
+	          $(TEMP_INSTALLDIR) temp-src \
+	          stmp-config-* stmp-build-* stmp-install-* && \
+	for sub in [ * ]; do \
+	  if [ -f $$sub/config.status ]; then \
+	    echo "Deleting " $$sub "..." && $(RM) -r $$sub ; \
+	  fi; \
+	done
+	@$(RM) Makefile
