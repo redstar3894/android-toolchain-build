@@ -98,11 +98,11 @@ export	CC_FOR_TARGET="$(TARGET_GCC_BUILDDIR)/gcc/xgcc \
 # 
 # To build libstdc++ with RTTI and exceptions do:
 #
-#CFLAGS_FOR_TARGET= -O2 -Os -g -fexceptions
-#CXXFLAGS_FOR_TARGET=$(CFLAGS_FOR_TARGET) -frtti
-# 
-CFLAGS_FOR_TARGET= -O2 -Os -g
-CXXFLAGS_FOR_TARGET=$(CFLAGS_FOR_TARGET)
+#export CFLAGS_FOR_TARGET=-fexceptions
+#export CXXFLAGS_FOR_TARGET=-frtti
+#
+CFLAGS_FOR_TARGET+= -O2 -Os -g
+CXXFLAGS_FOR_TARGET+=$(CFLAGS_FOR_TARGET)
 LDFLAGS_FOR_TARGET=
 
 # Helper
@@ -357,8 +357,8 @@ clean:
 .PHONY: distclean
 distclean:
 	@$(RM) -r config.log config.status \
-	          $(TEMP_INSTALLDIR) temp-src \
-	          stmp-config-* stmp-build-* stmp-install-* && \
+		  $(TEMP_INSTALLDIR) temp-src \
+		  stmp-config-* stmp-build-* stmp-install-* && \
 	for sub in [ * ]; do \
 	  if [ -f $$sub/config.status ]; then \
 	    echo "Deleting " $$sub "..." && $(RM) -r $$sub ; \

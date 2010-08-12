@@ -101,7 +101,12 @@ remove these installed headers.
 2.4 Enabling libstdc++-v3
 
 For space saving, we do not provide libstdc++-v3 in the toolchain by default.
-It is possible too build libstdc++-v3.  The enable it, add
+It is possible too build libstdc++-v3. To enable it, do
+
+	export CFLAGS_FOR_TARGET=-fexceptions
+	export CXXFLAGS_FOR_TARGET=-frtti
+
+before configuring the toolchain, and add
 
 	--enable-libstdc__-v3
 
