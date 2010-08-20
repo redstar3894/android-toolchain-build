@@ -24,7 +24,7 @@ the gcc test suite with the gnu ARM emulator.
 
 2. Configuring the toolchain
 
-2.1 Pre-requesites
+2.1 Prerequisites
 
 You need to have version 4.4 or higher of the 'makeinfo' program that comes
 from the 'texinfo' package installed on your machine, even if you use
@@ -43,7 +43,7 @@ by GNU autoconf generated configure file. In addition it supports the
 following options:
 
   --with-gcc-version=<gcc version>
-  --with-binutils-version=<binutul version>
+  --with-binutils-version=<binutils version>
   --with-newlib-version=<newlib version>
   --with-gmp-version=<gmp version>
   --with-mpfr-version=<mpfr version>
@@ -52,7 +52,7 @@ following options:
 
 These are used to select the desired version of a particular GNU tool
 package.  If these options are not used during top-level configuring,
-approriate default values will be used.
+appropriate default values will be used.
 
 For any --with-XXX-version=YYY, a sub-directory called XXX-YYY must be
 present in the source level directory.  For example,
@@ -77,7 +77,7 @@ target C library.  This is not convenient to use for application development.
 It is possible to build a standalone toolchain with pre-built libraries and
 headers.
 
-To build a standalone toolchain, we need a set of pre-compile libraries and
+To build a standalone toolchain, we need a set of pre-compiled libraries and
 associated headers.  There are two ways to do that.  One way is to assemble a
 sysroot with both the library and headers.  Then when configuring the
 toolchain add --with-sysroot=<path to sysroot>.  The toolchain expects all
@@ -90,7 +90,7 @@ The script build-sysroot.sh can be used to assemble a simple sysroot from
 an Android device tree.
 
 The other way is to specify the headers and libraries with --with-headers and
---with-libs sperately.  If you configure your tree with a prefix.  The headers
+--with-libs separately.  If you configure your tree with a prefix.  The headers
 and libraries will be copied to the install directory specified by the prefix.
 
 After installation, we need to remove those installed headers in
@@ -101,7 +101,7 @@ remove these installed headers.
 2.4 Enabling libstdc++-v3
 
 For space saving, we do not provide libstdc++-v3 in the toolchain by default.
-It is possible too build libstdc++-v3. To enable it, do
+It is possible to build libstdc++-v3. To enable it, do
 
 	export CFLAGS_FOR_TARGET=-fexceptions
 	export CXXFLAGS_FOR_TARGET=-frtti
