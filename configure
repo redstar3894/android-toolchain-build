@@ -1238,7 +1238,7 @@ Optional Packages:
   --with-mpc-version=VERSION
                           use mpc-VERSION (default is 0.8.1)
   --with-gdb-version=VERSION
-                          use gdb-VERSION (default is 6.6)
+                          use gdb-VERSION (default is 7.1.x)
 
 _ACEOF
 ac_status=$?
@@ -2312,7 +2312,7 @@ fi
 fi
 
 
-# gdb version (default is 6.6)
+# gdb version (default is 7.1.x)
 { echo "$as_me:$LINENO: checking target gdb version to build" >&5
 echo $ECHO_N "checking target gdb version to build... $ECHO_C" >&6; }
 
@@ -2322,7 +2322,7 @@ if test "${with_gdb_version+set}" = set; then
      GDB_VERSION="$withval"
    fi
 else
-  GDB_VERSION="6.6"
+  GDB_VERSION="7.1.x"
 fi
 
 { echo "$as_me:$LINENO: result: $GDB_VERSION" >&5

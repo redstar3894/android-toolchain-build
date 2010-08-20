@@ -336,15 +336,15 @@ ANDROID_CHECK_PACKAGE(mpc-${MPC_VERSION})
 fi
 AC_SUBST(MPC_VERSION)
 
-# gdb version (default is 6.6)
+# gdb version (default is 7.1.x)
 AC_MSG_CHECKING([target gdb version to build])
 AC_ARG_WITH([gdb-version],
   [  --with-gdb-version=VERSION
-                          use gdb-VERSION (default is 6.6)],
+                          use gdb-VERSION (default is 7.1.x)],
   [if test x"$withval" != x ; then
      GDB_VERSION="$withval"
    fi],
-[GDB_VERSION="6.6"])
+[GDB_VERSION="7.1.x"])
 AC_MSG_RESULT($GDB_VERSION)
 AC_SUBST(GDB_VERSION)
 ANDROID_CHECK_PACKAGE(gdb-${GDB_VERSION})
