@@ -329,7 +329,8 @@ config-target-gdb: stmp-config-target-gdb
 
 GDB_CONFIG_ARGS=$(baseargs) --prefix=$(prefix) \
 	--target=$(GDB_TARGET) --host=${host} --build=${build} \
-	--disable-nls
+	--disable-nls \
+	--disable-sim --disable-tui
 
 stmp-config-target-gdb: config.status
 	([ -d ${GDB_VERSION} ] || \
