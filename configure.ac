@@ -221,15 +221,15 @@ if test ! -d $srcdir/../$tool/$1 ; then
   fi
 fi ])
 
-# binutils version (default is 2.17)
+# binutils version (default is 2.19)
 AC_MSG_CHECKING([target binutils version to build])
 AC_ARG_WITH([binutils-version],
   [  --with-binutils-version=VERSION
-                          use binutils-VERSION (default is 2.17)],
+                          use binutils-VERSION (default is 2.19)],
   [if test x"$withval" != x ; then
      BINUTILS_VERSION="$withval"
    fi],
-[BINUTILS_VERSION="2.17"])
+[BINUTILS_VERSION="2.19"])
 AC_MSG_RESULT($BINUTILS_VERSION)
 AC_SUBST(BINUTILS_VERSION)
 ANDROID_CHECK_PACKAGE(binutils-${BINUTILS_VERSION})

@@ -1226,7 +1226,7 @@ Optional Packages:
   --with-PACKAGE[=ARG]    use PACKAGE [ARG=yes]
   --without-PACKAGE       do not use PACKAGE (same as --with-PACKAGE=no)
   --with-binutils-version=VERSION
-                          use binutils-VERSION (default is 2.17)
+                          use binutils-VERSION (default is 2.19)
   --with-gcc-version=VERSION
                           use gcc-VERSION (default is 4.4.4)
   --with-newlib-version=VERSION
@@ -2029,7 +2029,7 @@ esac
 
 
 
-# binutils version (default is 2.17)
+# binutils version (default is 2.19)
 { echo "$as_me:$LINENO: checking target binutils version to build" >&5
 echo $ECHO_N "checking target binutils version to build... $ECHO_C" >&6; }
 
@@ -2039,7 +2039,7 @@ if test "${with_binutils_version+set}" = set; then
      BINUTILS_VERSION="$withval"
    fi
 else
-  BINUTILS_VERSION="2.17"
+  BINUTILS_VERSION="2.19"
 fi
 
 { echo "$as_me:$LINENO: result: $BINUTILS_VERSION" >&5
