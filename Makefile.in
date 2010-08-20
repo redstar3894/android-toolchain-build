@@ -139,7 +139,8 @@ config-target-binutils: stmp-config-target-binutils
 # We do not want to enable shared libraries in binutils
 BINUTILS_CONFIG_ARGS=--prefix=$(prefix) \
 	--target=${target_alias} --host=${host} --build=${build} \
-	$(baseargs) --disable-shared
+	$(baseargs) --disable-shared \
+	--disable-nls
 stmp-config-target-binutils: config.status
 	([ -d ${BINUTILS_VERSION} ] || \
 	  mkdir ${BINUTILS_VERSION}) && \
