@@ -1228,7 +1228,7 @@ Optional Packages:
   --with-binutils-version=VERSION
                           use binutils-VERSION (default is 2.17)
   --with-gcc-version=VERSION
-                          use gcc-VERSION (default is 4.2.1)
+                          use gcc-VERSION (default is 4.4.4)
   --with-newlib-version=VERSION
                           use newlib-VERSION (default is 1.16.0)
   --with-gmp-version=VERSION
@@ -2070,7 +2070,7 @@ echo "$as_me: error: 'package binutils-${BINUTILS_VERSION} does not exist.'" >&2
   fi
 fi
 
-# gcc version (default is 4.2.1)
+# gcc version (default is 4.4.4)
 { echo "$as_me:$LINENO: checking target gcc version to build" >&5
 echo $ECHO_N "checking target gcc version to build... $ECHO_C" >&6; }
 
@@ -2080,7 +2080,7 @@ if test "${with_gcc_version+set}" = set; then
      GCC_VERSION="$withval"
    fi
 else
-  GCC_VERSION="4.2.1"
+  GCC_VERSION="4.4.4"
 fi
 
 { echo "$as_me:$LINENO: result: $GCC_VERSION" >&5

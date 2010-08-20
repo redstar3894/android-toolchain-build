@@ -234,15 +234,15 @@ AC_MSG_RESULT($BINUTILS_VERSION)
 AC_SUBST(BINUTILS_VERSION)
 ANDROID_CHECK_PACKAGE(binutils-${BINUTILS_VERSION})
 
-# gcc version (default is 4.2.1)
+# gcc version (default is 4.4.4)
 AC_MSG_CHECKING([target gcc version to build])
 AC_ARG_WITH([gcc-version],
   [  --with-gcc-version=VERSION
-                          use gcc-VERSION (default is 4.2.1)],
+                          use gcc-VERSION (default is 4.4.4)],
   [if test x"$withval" != x ; then
      GCC_VERSION="$withval"
    fi],
-[GCC_VERSION="4.2.1"])
+[GCC_VERSION="4.4.4"])
 AC_MSG_RESULT($GCC_VERSION)
 AC_SUBST(GCC_VERSION)
 ANDROID_CHECK_PACKAGE(gcc-${GCC_VERSION})
