@@ -1234,7 +1234,7 @@ Optional Packages:
   --with-gmp-version=VERSION
                           use gmp-VERSION (default is 4.2.4)
   --with-mpfr-version=VERSION
-                          use mpfr-VERSION (default is 2.3.0)
+                          use mpfr-VERSION (default is 2.4.1)
   --with-mpc-version=VERSION
                           use mpc-VERSION (default is 0.8.1)
   --with-gdb-version=VERSION
@@ -2223,7 +2223,7 @@ echo "$as_me: error: 'package gmp-${GMP_VERSION} does not exist.'" >&2;}
   fi
 fi
 
-# mpfr version (default is 2.3.0)
+# mpfr version (default is 2.4.1)
 # mpfr is only used for gcc version higher than 4.3.0
 { echo "$as_me:$LINENO: checking mpfr version" >&5
 echo $ECHO_N "checking mpfr version... $ECHO_C" >&6; }
@@ -2234,7 +2234,7 @@ if test "${with_mpfr_version+set}" = set; then
      MPFR_VERSION="$withval"
    fi
 else
-  MPFR_VERSION="2.3.0"
+  MPFR_VERSION="2.4.1"
 fi
 
 { echo "$as_me:$LINENO: result: $MPFR_VERSION" >&5

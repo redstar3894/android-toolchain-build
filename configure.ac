@@ -303,16 +303,16 @@ AC_ARG_WITH([gmp-version],
 AC_MSG_RESULT($GMP_VERSION)
 ANDROID_CHECK_PACKAGE(gmp-${GMP_VERSION})
 
-# mpfr version (default is 2.3.0)
+# mpfr version (default is 2.4.1)
 # mpfr is only used for gcc version higher than 4.3.0
 AC_MSG_CHECKING([mpfr version])
 AC_ARG_WITH([mpfr-version],
   [  --with-mpfr-version=VERSION
-                          use mpfr-VERSION (default is 2.3.0)],
+                          use mpfr-VERSION (default is 2.4.1)],
   [if test x"$withval" != x ; then
      MPFR_VERSION="$withval"
    fi],
-[MPFR_VERSION="2.3.0"])
+[MPFR_VERSION="2.4.1"])
 AC_MSG_RESULT($MPFR_VERSION)
 ANDROID_CHECK_PACKAGE(mpfr-${MPFR_VERSION})
 
