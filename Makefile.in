@@ -160,7 +160,8 @@ config-target-gcc: stmp-config-target-gcc
 
 GCC_CONFIG_ARGS=--prefix=$(prefix) \
 	  --target=${target_alias} --host=${host} --build=${build} \
-	  --enable-languages=c,c++
+	  --enable-languages=c,c++ \
+	  --with-pkgversion=0xlab
 
 # For gcc versions 4.3.0 and later, gmp and mpfr are required.
 # Also build libgcc is a seperate sub-target in 4.3.0+.
