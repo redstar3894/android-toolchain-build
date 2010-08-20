@@ -1232,7 +1232,7 @@ Optional Packages:
   --with-newlib-version=VERSION
                           use newlib-VERSION (default is 1.16.0)
   --with-gmp-version=VERSION
-                          use gmp-VERSION (default is 4.2.2)
+                          use gmp-VERSION (default is 4.2.4)
   --with-mpfr-version=VERSION
                           use mpfr-VERSION (default is 2.3.0)
   --with-mpc-version=VERSION
@@ -2182,7 +2182,7 @@ fi
 fi
 
 if test "$GCC_MIN_VERSION_4_3_0" == "yes"; then
-# gmp version (default is 4.2.2)
+# gmp version (default is 4.2.4)
 # gmp is only used for gcc version higher than 4.3.0
 { echo "$as_me:$LINENO: checking gmp version" >&5
 echo $ECHO_N "checking gmp version... $ECHO_C" >&6; }
@@ -2193,7 +2193,7 @@ if test "${with_gmp_version+set}" = set; then
      GMP_VERSION="$withval"
    fi
 else
-  GMP_VERSION="4.2.2"
+  GMP_VERSION="4.2.4"
 fi
 
 { echo "$as_me:$LINENO: result: $GMP_VERSION" >&5

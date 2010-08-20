@@ -290,16 +290,16 @@ ANDROID_CHECK_PACKAGE(newlib-${NEWLIB_VERSION})
 fi
 
 if test "$GCC_MIN_VERSION_4_3_0" == "yes"; then
-# gmp version (default is 4.2.2)
+# gmp version (default is 4.2.4)
 # gmp is only used for gcc version higher than 4.3.0
 AC_MSG_CHECKING([gmp version])
 AC_ARG_WITH([gmp-version],
   [  --with-gmp-version=VERSION
-                          use gmp-VERSION (default is 4.2.2)],
+                          use gmp-VERSION (default is 4.2.4)],
   [if test x"$withval" != x ; then
      GMP_VERSION="$withval"
    fi],
-[GMP_VERSION="4.2.2"])
+[GMP_VERSION="4.2.4"])
 AC_MSG_RESULT($GMP_VERSION)
 ANDROID_CHECK_PACKAGE(gmp-${GMP_VERSION})
 
