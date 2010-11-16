@@ -1242,7 +1242,7 @@ Optional Packages:
   --with-ppl-version=VERSION
                           use ppl-VERSION (default is 0.11)
   --with-cloog-version=VERSION
-                          use ppl-VERSION (default is 0.15.9)
+                          use cloog-VERSION (default is 0.15.9)
   --with-gdb-version=VERSION
                           use gdb-VERSION (default is 7.1.x)
 

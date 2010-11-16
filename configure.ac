@@ -352,7 +352,7 @@ ANDROID_CHECK_PACKAGE(ppl-${PPL_VERSION})
 AC_MSG_CHECKING([cloog version])
 AC_ARG_WITH([cloog-version],
   [  --with-cloog-version=VERSION
-                          use ppl-VERSION (default is 0.15.9)],
+                          use cloog-VERSION (default is 0.15.9)],
   [if test x"$withval" != x ; then
      CLOOG_VERSION="$withval"
    fi],
