@@ -336,6 +336,33 @@ ANDROID_CHECK_PACKAGE(mpc-${MPC_VERSION})
 fi
 AC_SUBST(MPC_VERSION)
 
+# ppl version (default is 2.4.1)
+AC_MSG_CHECKING([ppl version])
+AC_ARG_WITH([ppl-version],
+  [  --with-ppl-version=VERSION
+                          use ppl-VERSION (default is 0.11)],
+  [if test x"$withval" != x ; then
+     PPL_VERSION="$withval"
+   fi],
+[PPL_VERSION="0.11"])
+AC_MSG_RESULT($PPL_VERSION)
+ANDROID_CHECK_PACKAGE(ppl-${PPL_VERSION})
+
+# cloog-ppl version (default is 0.15.9)
+AC_MSG_CHECKING([cloog version])
+AC_ARG_WITH([cloog-version],
+  [  --with-cloog-version=VERSION
+                          use ppl-VERSION (default is 0.15.9)],
+  [if test x"$withval" != x ; then
+     CLOOG_VERSION="$withval"
+   fi],
+[CLOOG_VERSION="0.15.9"])
+AC_MSG_RESULT($CLOOG_VERSION)
+ANDROID_CHECK_PACKAGE(cloog-ppl-${CLOOG_VERSION})
+
+AC_SUBST(PPL_VERSION)
+AC_SUBST(CLOOG_VERSION)
+
 # gdb version (default is 7.1.x)
 AC_MSG_CHECKING([target gdb version to build])
 AC_ARG_WITH([gdb-version],

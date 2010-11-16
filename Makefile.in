@@ -65,6 +65,8 @@ NEWLIB_VERSION=newlib-@NEWLIB_VERSION@
 GMP_VERSION=gmp-@GMP_VERSION@
 MPFR_VERSION=mpfr-@MPFR_VERSION@
 MPC_VERSION=mpc-@MPC_VERSION@
+PPL_VERSION=ppl-@PPL_VERSION@
+CLOOG_VERSION=cloog-ppl-@CLOOG_VERSION@
 GDB_VERSION=gdb-@GDB_VERSION@
 STAMP=touch
 
@@ -166,8 +168,10 @@ GCC_CONFIG_ARGS=--prefix=$(prefix) \
 # For gcc versions 4.3.0 and later, gmp and mpfr are required.
 # Also build libgcc is a seperate sub-target in 4.3.0+.
 ifeq ($(GCC_MIN_VERSION_4_3_0),yes)
-stmp-config-target-gcc: stmp-install-host-gmp stmp-install-host-mpfr
-GCC_CONFIG_ARGS += --with-gmp=$(TEMP_INSTALLDIR) --with-mpfr=$(TEMP_INSTALLDIR)
+stmp-config-target-gcc: stmp-install-host-gmp stmp-install-host-mpfr \
+			stmp-install-host-ppl stmp-install-host-cloog
+GCC_CONFIG_ARGS += --with-gmp=$(TEMP_INSTALLDIR) --with-mpfr=$(TEMP_INSTALLDIR) \
+		   --with-ppl=$(TEMP_INSTALLDIR) --with-cloog=$(TEMP_INSTALLDIR)
 endif
 
 # For gcc versions 4.5.0 and higher, mpc is required.
@@ -267,7 +271,8 @@ install-target-newlib: stmp-build-target-newlib
 .PHONY: config-host-gmp build-host-gmp install-host-gmp
 config-host-gmp: stmp-config-host-gmp
 GMP_CONFIG_ARGS=$(baseargs) --prefix=$(TEMP_INSTALLDIR) --disable-shared \
-	  --host=${host} --build=${build}
+	  --host=${host} --build=${build} \
+	  --enable-cxx
 stmp-config-host-gmp: config.status
 	([ -d ${GMP_VERSION} ] || \
 	  mkdir ${GMP_VERSION}) && \
@@ -324,6 +329,54 @@ stmp-install-host-mpc: stmp-build-host-mpc
 	$(MAKE) -C ${MPC_VERSION} install && \
 	$(STAMP) $@
 install-host-mpc: stmp-install-host-mpc
+
+# host ppl rules
+.PHONY: config-host-ppl build-host-ppl install-host-ppl
+config-host-ppl: stmp-config-host-ppl
+PPL_CONFIG_ARGS=$(baseargs) --prefix=$(TEMP_INSTALLDIR) --disable-shared \
+	 --target=${target_alias} \
+	 --host=${host} --build=${build} \
+	 --disable-nls --with-gmp-prefix=$(TEMP_INSTALLDIR)
+stmp-config-host-ppl: config.status stmp-install-host-ppl stmp-install-host-ppl
+	([ -d ${PPL_VERSION} ] || \
+	  mkdir ${PPL_VERSION}) && \
+	(cd ${PPL_VERSION} ; \
+	 $(call find-package-srcdir, ${PPL_VERSION})/configure \
+	  $(PPL_CONFIG_ARGS)) && \
+	$(STAMP) $@
+stmp-build-host-ppl: stmp-config-host-ppl
+	$(MAKE) -C ${PPL_VERSION} && $(STAMP) $@
+build-host-ppl: stmp-build-host-ppl
+stmp-install-host-ppl: stmp-build-host-ppl
+	$(MAKE) -C ${PPL_VERSION} install && \
+	$(STAMP) $@
+install-host-ppl: stmp-install-host-ppl
+
+# host cloog rules
+.PHONY: config-host-cloog build-host-cloog install-host-cloog
+config-host-cloog: stmp-config-host-cloog
+CLOOG_CONFIG_ARGS=$(baseargs) --prefix=$(TEMP_INSTALLDIR) --disable-shared \
+	 --target=${target_alias} \
+	 --host=${host} --build=${build} \
+	 --disable-nls \
+	 --with-ppl=$(TEMP_INSTALLDIR) --with-gmp=$(TEMP_INSTALLDIR) \
+	 --with-bits=32
+stmp-config-host-cloog: config.status stmp-install-host-cloog stmp-install-host-cloog
+	([ -d ${CLOOG_VERSION} ] || \
+	  mkdir ${CLOOG_VERSION}) && \
+	(cd ${CLOOG_VERSION} ; \
+	 sed -i -e 's/PPL_VERSION_MINOR 11/PPL_VERSION_MINOR 10/' \
+	           $(TEMP_INSTALLDIR)/include/ppl_c.h ; \
+	 $(call find-package-srcdir, ${CLOOG_VERSION})/configure \
+	  $(CLOOG_CONFIG_ARGS)) && \
+	$(STAMP) $@
+stmp-build-host-cloog: stmp-config-host-cloog
+	$(MAKE) -C ${PPL_VERSION} && $(STAMP) $@
+build-host-cloog: stmp-build-host-cloog
+stmp-install-host-cloog: stmp-build-host-cloog
+	$(MAKE) -C ${PPL_VERSION} install && \
+	$(STAMP) $@
+install-host-cloog: stmp-install-host-cloog
 
 # target gdb rules
 .PHONY: config-target-gdb build-target-gdb install-target-gdb

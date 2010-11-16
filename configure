@@ -638,6 +638,8 @@ NEWLIB_VERSION
 GMP_VERSION
 MPFR_VERSION
 MPC_VERSION
+PPL_VERSION
+CLOOG_VERSION
 GDB_VERSION
 LIBOBJS
 LTLIBOBJS'
@@ -1237,6 +1239,10 @@ Optional Packages:
                           use mpfr-VERSION (default is 2.4.1)
   --with-mpc-version=VERSION
                           use mpc-VERSION (default is 0.8.1)
+  --with-ppl-version=VERSION
+                          use ppl-VERSION (default is 0.11)
+  --with-cloog-version=VERSION
+                          use ppl-VERSION (default is 0.15.9)
   --with-gdb-version=VERSION
                           use gdb-VERSION (default is 7.1.x)
 
@@ -1832,7 +1838,7 @@ test -n "$target_alias" &&
 
 # We only allow the following 3 targets:
 # 1. arm-linux-androideabi (primary target)
-# 2. arm-eabi (to be phased out.)
+# 2. arm-eabi (for Android kernel)
 # 3. arm-newlib-eabi (for gcc testing)
 # 4.i[3456]86-*-linux-gnu, x86-*-linux-gnu (for x86 targets)
 
@@ -2310,6 +2316,89 @@ echo "$as_me: error: 'package mpc-${MPC_VERSION} does not exist.'" >&2;}
   fi
 fi
 fi
+
+
+# ppl version (default is 2.4.1)
+{ echo "$as_me:$LINENO: checking ppl version" >&5
+echo $ECHO_N "checking ppl version... $ECHO_C" >&6; }
+
+# Check whether --with-ppl-version was given.
+if test "${with_ppl_version+set}" = set; then
+  withval=$with_ppl_version; if test x"$withval" != x ; then
+     PPL_VERSION="$withval"
+   fi
+else
+  PPL_VERSION="0.11"
+fi
+
+{ echo "$as_me:$LINENO: result: $PPL_VERSION" >&5
+echo "${ECHO_T}$PPL_VERSION" >&6; }
+x=ppl-${PPL_VERSION}; tool=${x%-*}; \
+if test ! -d $srcdir/../$tool/ppl-${PPL_VERSION} ; then
+  if test -f $srcdir/../$tool/ppl-${PPL_VERSION}.tar ; then
+    mkdir -p temp-src && tar -C temp-src -xf $srcdir/../$tool/ppl-${PPL_VERSION}.tar
+  elif test -f $srcdir/../$tool/ppl-${PPL_VERSION}.tar.gz ; then
+    mkdir -p temp-src && tar -C temp-src -xzf $srcdir/../$tool/ppl-${PPL_VERSION}.tar.gz
+  elif test -f $srcdir/../$tool/ppl-${PPL_VERSION}.tgz ; then
+    mkdir -p temp-src && tar -C temp-src -xzf $srcdir/../$tool/ppl-${PPL_VERSION}.tgz
+  elif test -f $srcdir/../$tool/ppl-${PPL_VERSION}.tar.bz2 ; then
+    mkdir -p temp-src && tar -C temp-src -xjf $srcdir/../$tool/ppl-${PPL_VERSION}.tar.bz2
+  elif test -f $srcdir/../tarballs/ppl-${PPL_VERSION}.tar ; then
+    mkdir -p temp-src && tar -C temp-src -xf $srcdir/../tarballs/ppl-${PPL_VERSION}.tar
+  elif test -f $srcdir/../tarballs/ppl-${PPL_VERSION}.tar.gz ; then
+    mkdir -p temp-src && tar -C temp-src -xzf $srcdir/../tarballs/ppl-${PPL_VERSION}.tar.gz
+  elif test -f $srcdir/../tarballs/ppl-${PPL_VERSION}.tgz ; then
+    mkdir -p temp-src && tar -C temp-src -xzf $srcdir/../tarballs/ppl-${PPL_VERSION}.tgz
+  elif test -f $srcdir/../tarballs/ppl-${PPL_VERSION}.tar.bz2 ; then
+    mkdir -p temp-src && tar -C temp-src -xjf $srcdir/../tarballs/ppl-${PPL_VERSION}.tar.bz2
+  else
+    { { echo "$as_me:$LINENO: error: 'package ppl-${PPL_VERSION} does not exist.'" >&5
+echo "$as_me: error: 'package ppl-${PPL_VERSION} does not exist.'" >&2;}
+   { (exit 1); exit 1; }; }
+  fi
+fi
+
+# cloog-ppl version (default is 0.15.9)
+{ echo "$as_me:$LINENO: checking cloog version" >&5
+echo $ECHO_N "checking cloog version... $ECHO_C" >&6; }
+
+# Check whether --with-cloog-version was given.
+if test "${with_cloog_version+set}" = set; then
+  withval=$with_cloog_version; if test x"$withval" != x ; then
+     CLOOG_VERSION="$withval"
+   fi
+else
+  CLOOG_VERSION="0.15.9"
+fi
+
+{ echo "$as_me:$LINENO: result: $CLOOG_VERSION" >&5
+echo "${ECHO_T}$CLOOG_VERSION" >&6; }
+x=cloog-ppl-${CLOOG_VERSION}; tool=${x%-*}; \
+if test ! -d $srcdir/../$tool/cloog-ppl-${CLOOG_VERSION} ; then
+  if test -f $srcdir/../$tool/cloog-ppl-${CLOOG_VERSION}.tar ; then
+    mkdir -p temp-src && tar -C temp-src -xf $srcdir/../$tool/cloog-ppl-${CLOOG_VERSION}.tar
+  elif test -f $srcdir/../$tool/cloog-ppl-${CLOOG_VERSION}.tar.gz ; then
+    mkdir -p temp-src && tar -C temp-src -xzf $srcdir/../$tool/cloog-ppl-${CLOOG_VERSION}.tar.gz
+  elif test -f $srcdir/../$tool/cloog-ppl-${CLOOG_VERSION}.tgz ; then
+    mkdir -p temp-src && tar -C temp-src -xzf $srcdir/../$tool/cloog-ppl-${CLOOG_VERSION}.tgz
+  elif test -f $srcdir/../$tool/cloog-ppl-${CLOOG_VERSION}.tar.bz2 ; then
+    mkdir -p temp-src && tar -C temp-src -xjf $srcdir/../$tool/cloog-ppl-${CLOOG_VERSION}.tar.bz2
+  elif test -f $srcdir/../tarballs/cloog-ppl-${CLOOG_VERSION}.tar ; then
+    mkdir -p temp-src && tar -C temp-src -xf $srcdir/../tarballs/cloog-ppl-${CLOOG_VERSION}.tar
+  elif test -f $srcdir/../tarballs/cloog-ppl-${CLOOG_VERSION}.tar.gz ; then
+    mkdir -p temp-src && tar -C temp-src -xzf $srcdir/../tarballs/cloog-ppl-${CLOOG_VERSION}.tar.gz
+  elif test -f $srcdir/../tarballs/cloog-ppl-${CLOOG_VERSION}.tgz ; then
+    mkdir -p temp-src && tar -C temp-src -xzf $srcdir/../tarballs/cloog-ppl-${CLOOG_VERSION}.tgz
+  elif test -f $srcdir/../tarballs/cloog-ppl-${CLOOG_VERSION}.tar.bz2 ; then
+    mkdir -p temp-src && tar -C temp-src -xjf $srcdir/../tarballs/cloog-ppl-${CLOOG_VERSION}.tar.bz2
+  else
+    { { echo "$as_me:$LINENO: error: 'package cloog-ppl-${CLOOG_VERSION} does not exist.'" >&5
+echo "$as_me: error: 'package cloog-ppl-${CLOOG_VERSION} does not exist.'" >&2;}
+   { (exit 1); exit 1; }; }
+  fi
+fi
+
+
 
 
 # gdb version (default is 7.1.x)
@@ -3043,12 +3132,14 @@ NEWLIB_VERSION!$NEWLIB_VERSION$ac_delim
 GMP_VERSION!$GMP_VERSION$ac_delim
 MPFR_VERSION!$MPFR_VERSION$ac_delim
 MPC_VERSION!$MPC_VERSION$ac_delim
+PPL_VERSION!$PPL_VERSION$ac_delim
+CLOOG_VERSION!$CLOOG_VERSION$ac_delim
 GDB_VERSION!$GDB_VERSION$ac_delim
 LIBOBJS!$LIBOBJS$ac_delim
 LTLIBOBJS!$LTLIBOBJS$ac_delim
 _ACEOF
 
-  if test `sed -n "s/.*$ac_delim\$/X/p" conf$$subs.sed | grep -c X` = 65; then
+  if test `sed -n "s/.*$ac_delim\$/X/p" conf$$subs.sed | grep -c X` = 67; then
     break
   elif $ac_last_try; then
     { { echo "$as_me:$LINENO: error: could not make $CONFIG_STATUS" >&5
