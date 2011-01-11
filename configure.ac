@@ -221,15 +221,15 @@ if test ! -d $srcdir/../$tool/$1 ; then
   fi
 fi ])
 
-# binutils version (default is 2.19)
+# binutils version (default is 2.19.1)
 AC_MSG_CHECKING([target binutils version to build])
 AC_ARG_WITH([binutils-version],
   [  --with-binutils-version=VERSION
-                          use binutils-VERSION (default is 2.19)],
+                          use binutils-VERSION (default is 2.19.1)],
   [if test x"$withval" != x ; then
      BINUTILS_VERSION="$withval"
    fi],
-[BINUTILS_VERSION="2.19"])
+[BINUTILS_VERSION="2.19.1"])
 AC_MSG_RESULT($BINUTILS_VERSION)
 AC_SUBST(BINUTILS_VERSION)
 ANDROID_CHECK_PACKAGE(binutils-${BINUTILS_VERSION})
@@ -290,29 +290,29 @@ ANDROID_CHECK_PACKAGE(newlib-${NEWLIB_VERSION})
 fi
 
 if test "$GCC_MIN_VERSION_4_3_0" == "yes"; then
-# gmp version (default is 4.2.4)
+# gmp version (default is 4.3.2)
 # gmp is only used for gcc version higher than 4.3.0
 AC_MSG_CHECKING([gmp version])
 AC_ARG_WITH([gmp-version],
   [  --with-gmp-version=VERSION
-                          use gmp-VERSION (default is 4.2.4)],
+                          use gmp-VERSION (default is 4.3.2)],
   [if test x"$withval" != x ; then
      GMP_VERSION="$withval"
    fi],
-[GMP_VERSION="4.2.4"])
+[GMP_VERSION="4.3.2"])
 AC_MSG_RESULT($GMP_VERSION)
 ANDROID_CHECK_PACKAGE(gmp-${GMP_VERSION})
 
-# mpfr version (default is 2.4.1)
+# mpfr version (default is 2.4.2)
 # mpfr is only used for gcc version higher than 4.3.0
 AC_MSG_CHECKING([mpfr version])
 AC_ARG_WITH([mpfr-version],
   [  --with-mpfr-version=VERSION
-                          use mpfr-VERSION (default is 2.4.1)],
+                          use mpfr-VERSION (default is 2.4.2)],
   [if test x"$withval" != x ; then
      MPFR_VERSION="$withval"
    fi],
-[MPFR_VERSION="2.4.1"])
+[MPFR_VERSION="2.4.2"])
 AC_MSG_RESULT($MPFR_VERSION)
 ANDROID_CHECK_PACKAGE(mpfr-${MPFR_VERSION})
 

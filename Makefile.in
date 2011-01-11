@@ -193,7 +193,7 @@ GCC_CONFIG_ARGS += $(GCC_CONFIG_LIBSTDCXX_V3) --disable-libssp \
 CFLAGS_FOR_TARGET += -DTARGET_POSIX_IO -fno-short-enums
 # ARM specific options.
 ifeq ($(target_cpu),arm)
-GCC_CONFIG_ARGS += --with-float=soft --with-fpu=vfp --with-arch=armv5te \
+GCC_CONFIG_ARGS += --with-float=softfp --with-fpu=neon --with-arch=armv7-a \
 	--enable-target-optspace
 ifneq ($(target_os),linux-androideabi)
 GCC_CONFIG_ARGS += --with-abi=aapcs

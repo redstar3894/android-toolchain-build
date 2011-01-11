@@ -1228,15 +1228,15 @@ Optional Packages:
   --with-PACKAGE[=ARG]    use PACKAGE [ARG=yes]
   --without-PACKAGE       do not use PACKAGE (same as --with-PACKAGE=no)
   --with-binutils-version=VERSION
-                          use binutils-VERSION (default is 2.19)
+                          use binutils-VERSION (default is 2.19.1)
   --with-gcc-version=VERSION
                           use gcc-VERSION (default is 4.4.4)
   --with-newlib-version=VERSION
                           use newlib-VERSION (default is 1.16.0)
   --with-gmp-version=VERSION
-                          use gmp-VERSION (default is 4.2.4)
+                          use gmp-VERSION (default is 4.3.2)
   --with-mpfr-version=VERSION
-                          use mpfr-VERSION (default is 2.4.1)
+                          use mpfr-VERSION (default is 2.4.2)
   --with-mpc-version=VERSION
                           use mpc-VERSION (default is 0.8.1)
   --with-ppl-version=VERSION
