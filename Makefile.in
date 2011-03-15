@@ -152,7 +152,7 @@ stmp-config-target-binutils: config.status
 	$(STAMP) $@
 build-target-binutils: stmp-build-target-binutils
 stmp-build-target-binutils: stmp-config-target-binutils
-	$(MAKE) -C ${BINUTILS_VERSION} && $(STAMP) $@
+	$(MAKE) -j4 -C ${BINUTILS_VERSION} && $(STAMP) $@
 install-target-binutils: stmp-build-target-binutils
 	$(MAKE) -C ${BINUTILS_VERSION} install
 
@@ -219,7 +219,7 @@ stmp-config-target-gcc: config.status stmp-build-target-binutils
 	$(STAMP) $@
 build-target-gcc: stmp-build-target-gcc
 stmp-build-target-gcc: stmp-config-target-gcc
-	$(MAKE) -C ${GCC_VERSION} \
+	$(MAKE) -j4 -C ${GCC_VERSION} \
 		CFLAGS_FOR_TARGET="$(CFLAGS_FOR_TARGET)" \
 		CXXFLAGS_FOR_TARGET="$(CXXFLAGS_FOR_TARGET)" \
 		LDFLAGS_FOR_TARGET="$(LDFLAGS_FOR_TARGET)" \
@@ -239,7 +239,7 @@ endif
 
 build-target-minimal-gcc: stmp-build-target-minimal-gcc
 stmp-build-target-minimal-gcc: stmp-config-target-gcc
-	$(MAKE) -C ${GCC_VERSION} \
+	$(MAKE) -j4 -C ${GCC_VERSION} \
 		$(call prefix-list, all-, $(MINIMAL_GCC_BUILD_TARGETS)) && \
 	$(STAMP) $@
 install-target-minimal-gcc: stmp-build-target-minimal-gcc
@@ -263,7 +263,7 @@ stmp-config-target-newlib: stmp-build-target-binutils \
 	  $(NEWLIB_CONFIG_ARGS)) && \
 	$(STAMP) $@
 stmp-build-target-newlib: stmp-config-target-newlib
-	$(MAKE) -C ${NEWLIB_VERSION} && $(STAMP) $@
+	$(MAKE) -j4 -C ${NEWLIB_VERSION} && $(STAMP) $@
 install-target-newlib: stmp-build-target-newlib
 	$(MAKE) -C ${NEWLIB_VERSION} install
 
@@ -281,7 +281,7 @@ stmp-config-host-gmp: config.status
 	  $(GMP_CONFIG_ARGS)) && \
 	$(STAMP) $@
 stmp-build-host-gmp: stmp-config-host-gmp
-	$(MAKE) -C ${GMP_VERSION} && $(STAMP) $@
+	$(MAKE) -j4 -C ${GMP_VERSION} && $(STAMP) $@
 build-host-gmp: stmp-build-host-gmp
 # Need -j1 to avoid a race condition in building on OS X.
 stmp-install-host-gmp: stmp-build-host-gmp
@@ -302,7 +302,7 @@ stmp-config-host-mpfr: config.status stmp-install-host-gmp
 	  $(MPFR_CONFIG_ARGS)) && \
 	$(STAMP) $@
 stmp-build-host-mpfr: stmp-config-host-mpfr
-	$(MAKE) -C ${MPFR_VERSION} && $(STAMP) $@
+	$(MAKE) -j4 -C ${MPFR_VERSION} && $(STAMP) $@
 build-host-mpfr: stmp-build-host-mpfr
 stmp-install-host-mpfr: stmp-build-host-mpfr
 	$(MAKE) -C ${MPFR_VERSION} install && \
@@ -323,7 +323,7 @@ stmp-config-host-mpc: config.status stmp-install-host-gmp stmp-install-host-mpfr
 	  $(MPC_CONFIG_ARGS)) && \
 	$(STAMP) $@
 stmp-build-host-mpc: stmp-config-host-mpc
-	$(MAKE) -C ${MPC_VERSION} && $(STAMP) $@
+	$(MAKE) -j4 -C ${MPC_VERSION} && $(STAMP) $@
 build-host-mpc: stmp-build-host-mpc
 stmp-install-host-mpc: stmp-build-host-mpc
 	$(MAKE) -C ${MPC_VERSION} install && \
@@ -345,7 +345,7 @@ stmp-config-host-ppl: config.status stmp-install-host-ppl stmp-install-host-ppl
 	  $(PPL_CONFIG_ARGS)) && \
 	$(STAMP) $@
 stmp-build-host-ppl: stmp-config-host-ppl
-	$(MAKE) -C ${PPL_VERSION} && $(STAMP) $@
+	$(MAKE) -j4 -C ${PPL_VERSION} && $(STAMP) $@
 build-host-ppl: stmp-build-host-ppl
 stmp-install-host-ppl: stmp-build-host-ppl
 	$(MAKE) -C ${PPL_VERSION} install && \
@@ -371,7 +371,7 @@ stmp-config-host-cloog: config.status stmp-install-host-cloog stmp-install-host-
 	  $(CLOOG_CONFIG_ARGS)) && \
 	$(STAMP) $@
 stmp-build-host-cloog: stmp-config-host-cloog
-	$(MAKE) -C ${PPL_VERSION} && $(STAMP) $@
+	$(MAKE) -j4 -C ${PPL_VERSION} && $(STAMP) $@
 build-host-cloog: stmp-build-host-cloog
 stmp-install-host-cloog: stmp-build-host-cloog
 	$(MAKE) -C ${PPL_VERSION} install && \
@@ -396,7 +396,7 @@ stmp-config-target-gdb: config.status
 	$(STAMP) $@
 build-target-gdb: stmp-build-target-gdb
 stmp-build-target-gdb: stmp-config-target-gdb
-	$(MAKE) -C ${GDB_VERSION} && $(STAMP) $@
+	$(MAKE) -j4 -C ${GDB_VERSION} && $(STAMP) $@
 install-target-gdb: stmp-build-target-gdb
 	$(MAKE) -C ${GDB_VERSION} install
 
