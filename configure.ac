@@ -221,28 +221,28 @@ if test ! -d $srcdir/../$tool/$1 ; then
   fi
 fi ])
 
-# binutils version (default is 2.19.1)
+# binutils version (default is 2.21)
 AC_MSG_CHECKING([target binutils version to build])
 AC_ARG_WITH([binutils-version],
   [  --with-binutils-version=VERSION
-                          use binutils-VERSION (default is 2.19.1)],
+                          use binutils-VERSION (default is 2.21)],
   [if test x"$withval" != x ; then
      BINUTILS_VERSION="$withval"
    fi],
-[BINUTILS_VERSION="2.19.1"])
+[BINUTILS_VERSION="2.21"])
 AC_MSG_RESULT($BINUTILS_VERSION)
 AC_SUBST(BINUTILS_VERSION)
 ANDROID_CHECK_PACKAGE(binutils-${BINUTILS_VERSION})
 
-# gcc version (default is 4.4.4)
+# gcc version (default is 4.4.6)
 AC_MSG_CHECKING([target gcc version to build])
 AC_ARG_WITH([gcc-version],
   [  --with-gcc-version=VERSION
-                          use gcc-VERSION (default is 4.4.4)],
+                          use gcc-VERSION (default is 4.4.6)],
   [if test x"$withval" != x ; then
      GCC_VERSION="$withval"
    fi],
-[GCC_VERSION="4.4.4"])
+[GCC_VERSION="4.4.6"])
 AC_MSG_RESULT($GCC_VERSION)
 AC_SUBST(GCC_VERSION)
 ANDROID_CHECK_PACKAGE(gcc-${GCC_VERSION})
@@ -290,16 +290,16 @@ ANDROID_CHECK_PACKAGE(newlib-${NEWLIB_VERSION})
 fi
 
 if test "$GCC_MIN_VERSION_4_3_0" == "yes"; then
-# gmp version (default is 4.3.2)
+# gmp version (default is 5.0.1)
 # gmp is only used for gcc version higher than 4.3.0
 AC_MSG_CHECKING([gmp version])
 AC_ARG_WITH([gmp-version],
   [  --with-gmp-version=VERSION
-                          use gmp-VERSION (default is 4.3.2)],
+                          use gmp-VERSION (default is 5.0.1)],
   [if test x"$withval" != x ; then
      GMP_VERSION="$withval"
    fi],
-[GMP_VERSION="4.3.2"])
+[GMP_VERSION="5.0.1"])
 AC_MSG_RESULT($GMP_VERSION)
 ANDROID_CHECK_PACKAGE(gmp-${GMP_VERSION})
 
@@ -336,27 +336,27 @@ ANDROID_CHECK_PACKAGE(mpc-${MPC_VERSION})
 fi
 AC_SUBST(MPC_VERSION)
 
-# ppl version (default is 2.4.1)
+# ppl version (default is 0.11.2)
 AC_MSG_CHECKING([ppl version])
 AC_ARG_WITH([ppl-version],
   [  --with-ppl-version=VERSION
-                          use ppl-VERSION (default is 0.11)],
+                          use ppl-VERSION (default is 0.11.2)],
   [if test x"$withval" != x ; then
      PPL_VERSION="$withval"
    fi],
-[PPL_VERSION="0.11"])
+[PPL_VERSION="0.11.2"])
 AC_MSG_RESULT($PPL_VERSION)
 ANDROID_CHECK_PACKAGE(ppl-${PPL_VERSION})
 
-# cloog-ppl version (default is 0.15.9)
+# cloog-ppl version (default is 0.15.10)
 AC_MSG_CHECKING([cloog version])
 AC_ARG_WITH([cloog-version],
   [  --with-cloog-version=VERSION
-                          use cloog-VERSION (default is 0.15.9)],
+                          use cloog-VERSION (default is 0.15.10)],
   [if test x"$withval" != x ; then
      CLOOG_VERSION="$withval"
    fi],
-[CLOOG_VERSION="0.15.9"])
+[CLOOG_VERSION="0.15.10"])
 AC_MSG_RESULT($CLOOG_VERSION)
 ANDROID_CHECK_PACKAGE(cloog-ppl-${CLOOG_VERSION})
 

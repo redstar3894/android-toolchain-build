@@ -1228,21 +1228,21 @@ Optional Packages:
   --with-PACKAGE[=ARG]    use PACKAGE [ARG=yes]
   --without-PACKAGE       do not use PACKAGE (same as --with-PACKAGE=no)
   --with-binutils-version=VERSION
-                          use binutils-VERSION (default is 2.19.1)
+                          use binutils-VERSION (default is 2.21)
   --with-gcc-version=VERSION
-                          use gcc-VERSION (default is 4.4.4)
+                          use gcc-VERSION (default is 4.4.6)
   --with-newlib-version=VERSION
                           use newlib-VERSION (default is 1.16.0)
   --with-gmp-version=VERSION
-                          use gmp-VERSION (default is 4.3.2)
+                          use gmp-VERSION (default is 5.0.1)
   --with-mpfr-version=VERSION
                           use mpfr-VERSION (default is 2.4.2)
   --with-mpc-version=VERSION
                           use mpc-VERSION (default is 0.8.1)
   --with-ppl-version=VERSION
-                          use ppl-VERSION (default is 0.11)
+                          use ppl-VERSION (default is 0.11.2)
   --with-cloog-version=VERSION
-                          use cloog-VERSION (default is 0.15.9)
+                          use cloog-VERSION (default is 0.15.10)
   --with-gdb-version=VERSION
                           use gdb-VERSION (default is 7.1.x)
 
@@ -2035,7 +2035,7 @@ esac
 
 
 
-# binutils version (default is 2.19)
+# binutils version (default is 2.21)
 { echo "$as_me:$LINENO: checking target binutils version to build" >&5
 echo $ECHO_N "checking target binutils version to build... $ECHO_C" >&6; }
 
@@ -2045,7 +2045,7 @@ if test "${with_binutils_version+set}" = set; then
      BINUTILS_VERSION="$withval"
    fi
 else
-  BINUTILS_VERSION="2.19"
+  BINUTILS_VERSION="2.21"
 fi
 
 { echo "$as_me:$LINENO: result: $BINUTILS_VERSION" >&5
@@ -2076,7 +2076,7 @@ echo "$as_me: error: 'package binutils-${BINUTILS_VERSION} does not exist.'" >&2
   fi
 fi
 
-# gcc version (default is 4.4.4)
+# gcc version (default is 4.4.6)
 { echo "$as_me:$LINENO: checking target gcc version to build" >&5
 echo $ECHO_N "checking target gcc version to build... $ECHO_C" >&6; }
 
@@ -2086,7 +2086,7 @@ if test "${with_gcc_version+set}" = set; then
      GCC_VERSION="$withval"
    fi
 else
-  GCC_VERSION="4.4.4"
+  GCC_VERSION="4.4.6"
 fi
 
 { echo "$as_me:$LINENO: result: $GCC_VERSION" >&5
@@ -2188,7 +2188,7 @@ fi
 fi
 
 if test "$GCC_MIN_VERSION_4_3_0" == "yes"; then
-# gmp version (default is 4.2.4)
+# gmp version (default is 5.0.1)
 # gmp is only used for gcc version higher than 4.3.0
 { echo "$as_me:$LINENO: checking gmp version" >&5
 echo $ECHO_N "checking gmp version... $ECHO_C" >&6; }
@@ -2199,7 +2199,7 @@ if test "${with_gmp_version+set}" = set; then
      GMP_VERSION="$withval"
    fi
 else
-  GMP_VERSION="4.2.4"
+  GMP_VERSION="5.0.1"
 fi
 
 { echo "$as_me:$LINENO: result: $GMP_VERSION" >&5
@@ -2229,7 +2229,7 @@ echo "$as_me: error: 'package gmp-${GMP_VERSION} does not exist.'" >&2;}
   fi
 fi
 
-# mpfr version (default is 2.4.1)
+# mpfr version (default is 2.4.2)
 # mpfr is only used for gcc version higher than 4.3.0
 { echo "$as_me:$LINENO: checking mpfr version" >&5
 echo $ECHO_N "checking mpfr version... $ECHO_C" >&6; }
@@ -2240,7 +2240,7 @@ if test "${with_mpfr_version+set}" = set; then
      MPFR_VERSION="$withval"
    fi
 else
-  MPFR_VERSION="2.4.1"
+  MPFR_VERSION="2.4.2"
 fi
 
 { echo "$as_me:$LINENO: result: $MPFR_VERSION" >&5
@@ -2318,7 +2318,7 @@ fi
 fi
 
 
-# ppl version (default is 2.4.1)
+# ppl version (default is 0.11.2)
 { echo "$as_me:$LINENO: checking ppl version" >&5
 echo $ECHO_N "checking ppl version... $ECHO_C" >&6; }
 
@@ -2328,7 +2328,7 @@ if test "${with_ppl_version+set}" = set; then
      PPL_VERSION="$withval"
    fi
 else
-  PPL_VERSION="0.11"
+  PPL_VERSION="0.11.2"
 fi
 
 { echo "$as_me:$LINENO: result: $PPL_VERSION" >&5
@@ -2358,7 +2358,7 @@ echo "$as_me: error: 'package ppl-${PPL_VERSION} does not exist.'" >&2;}
   fi
 fi
 
-# cloog-ppl version (default is 0.15.9)
+# cloog-ppl version (default is 0.15.10)
 { echo "$as_me:$LINENO: checking cloog version" >&5
 echo $ECHO_N "checking cloog version... $ECHO_C" >&6; }
 
@@ -2368,7 +2368,7 @@ if test "${with_cloog_version+set}" = set; then
      CLOOG_VERSION="$withval"
    fi
 else
-  CLOOG_VERSION="0.15.9"
+  CLOOG_VERSION="0.15.10"
 fi
 
 { echo "$as_me:$LINENO: result: $CLOOG_VERSION" >&5
