@@ -66,7 +66,7 @@ GMP_VERSION=gmp-@GMP_VERSION@
 MPFR_VERSION=mpfr-@MPFR_VERSION@
 MPC_VERSION=mpc-@MPC_VERSION@
 PPL_VERSION=ppl-@PPL_VERSION@
-CLOOG_VERSION=cloog-ppl-@CLOOG_VERSION@
+CLOOG_VERSION=cloog-@CLOOG_VERSION@
 GDB_VERSION=gdb-@GDB_VERSION@
 STAMP=touch
 
@@ -193,7 +193,7 @@ GCC_CONFIG_ARGS += $(GCC_CONFIG_LIBSTDCXX_V3) --disable-libssp \
 CFLAGS_FOR_TARGET += -DTARGET_POSIX_IO -fno-short-enums
 # ARM specific options.
 ifeq ($(target_cpu),arm)
-GCC_CONFIG_ARGS += --with-float=hard --with-fpu=neon --with-arch=armv7-a --with-tune=cortex-a9 \
+GCC_CONFIG_ARGS += --with-float=softfp --with-fpu=neon --with-arch=armv7-a --with-tune=cortex-a9 \
 	--enable-target-optspace
 ifneq ($(target_os),linux-androideabi)
 GCC_CONFIG_ARGS += --with-abi=aapcs
@@ -359,22 +359,19 @@ CLOOG_CONFIG_ARGS=$(baseargs) --prefix=$(TEMP_INSTALLDIR) --disable-shared \
 	 --target=${target_alias} \
 	 --host=${host} --build=${build} \
 	 --disable-nls \
-	 --with-ppl=$(TEMP_INSTALLDIR) --with-gmp=$(TEMP_INSTALLDIR) \
-	 --with-bits=32
+	 --with-gmp=$(TEMP_INSTALLDIR)
 stmp-config-host-cloog: config.status stmp-install-host-cloog stmp-install-host-cloog
 	([ -d ${CLOOG_VERSION} ] || \
 	  mkdir ${CLOOG_VERSION}) && \
 	(cd ${CLOOG_VERSION} ; \
-	 sed -i -e 's/PPL_VERSION_MINOR 11/PPL_VERSION_MINOR 10/' \
-	           $(TEMP_INSTALLDIR)/include/ppl_c.h ; \
 	 $(call find-package-srcdir, ${CLOOG_VERSION})/configure \
 	  $(CLOOG_CONFIG_ARGS)) && \
 	$(STAMP) $@
 stmp-build-host-cloog: stmp-config-host-cloog
-	$(MAKE) -j4 -C ${PPL_VERSION} && $(STAMP) $@
+	$(MAKE) -j4 -C ${CLOOG_VERSION} && $(STAMP) $@
 build-host-cloog: stmp-build-host-cloog
 stmp-install-host-cloog: stmp-build-host-cloog
-	$(MAKE) -C ${PPL_VERSION} install && \
+	$(MAKE) -C ${CLOOG_VERSION} install && \
 	$(STAMP) $@
 install-host-cloog: stmp-install-host-cloog
 

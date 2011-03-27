@@ -2358,7 +2358,7 @@ echo "$as_me: error: 'package ppl-${PPL_VERSION} does not exist.'" >&2;}
   fi
 fi
 
-# cloog-ppl version (default is 0.15.10)
+# cloog version (default is 0.15.10)
 { echo "$as_me:$LINENO: checking cloog version" >&5
 echo $ECHO_N "checking cloog version... $ECHO_C" >&6; }
 
@@ -2373,27 +2373,27 @@ fi
 
 { echo "$as_me:$LINENO: result: $CLOOG_VERSION" >&5
 echo "${ECHO_T}$CLOOG_VERSION" >&6; }
-x=cloog-ppl-${CLOOG_VERSION}; tool=${x%-*}; \
-if test ! -d $srcdir/../$tool/cloog-ppl-${CLOOG_VERSION} ; then
-  if test -f $srcdir/../$tool/cloog-ppl-${CLOOG_VERSION}.tar ; then
-    mkdir -p temp-src && tar -C temp-src -xf $srcdir/../$tool/cloog-ppl-${CLOOG_VERSION}.tar
-  elif test -f $srcdir/../$tool/cloog-ppl-${CLOOG_VERSION}.tar.gz ; then
-    mkdir -p temp-src && tar -C temp-src -xzf $srcdir/../$tool/cloog-ppl-${CLOOG_VERSION}.tar.gz
-  elif test -f $srcdir/../$tool/cloog-ppl-${CLOOG_VERSION}.tgz ; then
-    mkdir -p temp-src && tar -C temp-src -xzf $srcdir/../$tool/cloog-ppl-${CLOOG_VERSION}.tgz
-  elif test -f $srcdir/../$tool/cloog-ppl-${CLOOG_VERSION}.tar.bz2 ; then
-    mkdir -p temp-src && tar -C temp-src -xjf $srcdir/../$tool/cloog-ppl-${CLOOG_VERSION}.tar.bz2
-  elif test -f $srcdir/../tarballs/cloog-ppl-${CLOOG_VERSION}.tar ; then
-    mkdir -p temp-src && tar -C temp-src -xf $srcdir/../tarballs/cloog-ppl-${CLOOG_VERSION}.tar
-  elif test -f $srcdir/../tarballs/cloog-ppl-${CLOOG_VERSION}.tar.gz ; then
-    mkdir -p temp-src && tar -C temp-src -xzf $srcdir/../tarballs/cloog-ppl-${CLOOG_VERSION}.tar.gz
-  elif test -f $srcdir/../tarballs/cloog-ppl-${CLOOG_VERSION}.tgz ; then
-    mkdir -p temp-src && tar -C temp-src -xzf $srcdir/../tarballs/cloog-ppl-${CLOOG_VERSION}.tgz
-  elif test -f $srcdir/../tarballs/cloog-ppl-${CLOOG_VERSION}.tar.bz2 ; then
-    mkdir -p temp-src && tar -C temp-src -xjf $srcdir/../tarballs/cloog-ppl-${CLOOG_VERSION}.tar.bz2
+x=cloog-${CLOOG_VERSION}; tool=${x%-*}; \
+if test ! -d $srcdir/../$tool/cloog-${CLOOG_VERSION} ; then
+  if test -f $srcdir/../$tool/cloog-${CLOOG_VERSION}.tar ; then
+    mkdir -p temp-src && tar -C temp-src -xf $srcdir/../$tool/cloog-${CLOOG_VERSION}.tar
+  elif test -f $srcdir/../$tool/cloog-${CLOOG_VERSION}.tar.gz ; then
+    mkdir -p temp-src && tar -C temp-src -xzf $srcdir/../$tool/cloog-${CLOOG_VERSION}.tar.gz
+  elif test -f $srcdir/../$tool/cloog-${CLOOG_VERSION}.tgz ; then
+    mkdir -p temp-src && tar -C temp-src -xzf $srcdir/../$tool/cloog-${CLOOG_VERSION}.tgz
+  elif test -f $srcdir/../$tool/cloog-${CLOOG_VERSION}.tar.bz2 ; then
+    mkdir -p temp-src && tar -C temp-src -xjf $srcdir/../$tool/cloog-${CLOOG_VERSION}.tar.bz2
+  elif test -f $srcdir/../tarballs/cloog-${CLOOG_VERSION}.tar ; then
+    mkdir -p temp-src && tar -C temp-src -xf $srcdir/../tarballs/cloog-${CLOOG_VERSION}.tar
+  elif test -f $srcdir/../tarballs/cloog-${CLOOG_VERSION}.tar.gz ; then
+    mkdir -p temp-src && tar -C temp-src -xzf $srcdir/../tarballs/cloog-${CLOOG_VERSION}.tar.gz
+  elif test -f $srcdir/../tarballs/cloog-${CLOOG_VERSION}.tgz ; then
+    mkdir -p temp-src && tar -C temp-src -xzf $srcdir/../tarballs/cloog-${CLOOG_VERSION}.tgz
+  elif test -f $srcdir/../tarballs/cloog-${CLOOG_VERSION}.tar.bz2 ; then
+    mkdir -p temp-src && tar -C temp-src -xjf $srcdir/../tarballs/cloog-${CLOOG_VERSION}.tar.bz2
   else
-    { { echo "$as_me:$LINENO: error: 'package cloog-ppl-${CLOOG_VERSION} does not exist.'" >&5
-echo "$as_me: error: 'package cloog-ppl-${CLOOG_VERSION} does not exist.'" >&2;}
+    { { echo "$as_me:$LINENO: error: 'package cloog-${CLOOG_VERSION} does not exist.'" >&5
+echo "$as_me: error: 'package cloog-${CLOOG_VERSION} does not exist.'" >&2;}
    { (exit 1); exit 1; }; }
   fi
 fi
